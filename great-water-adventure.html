@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Great Water Adventure — Adam the Dam Beaver | GEI</title>
+<meta name="description" content="Follow Adam the Dam Beaver from the mountain to the mill: an interactive water-engineering adventure for young explorers, with GEI Discovery connections to Genesis 1–6.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#10233F; --sub:#33496A; --sky:#E8F6FF; --sky2:#BFE6FF; --line:#CFE3F2;
+  --water:#1E88E5; --water2:#4FB3FF; --glow:#2fd2ff;
+  --eng:#1565C0; --engBg:#E6F2FF; --engLine:#B5D6F7;
+  --gei:#6B2FBF; --geiBg:#F3ECFF; --geiLine:#D8C6F7; --mag:#C0168F;
+  --good:#0F8A4C; --warn:#B45309;
+  --radius:22px;
+  --st:#4F46E5;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:#FFFFFF;color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-size:18px;line-height:1.55;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:Fredoka,Nunito,sans-serif;line-height:1.15;margin:0}
+button,input,select{font:inherit}
+img{max-width:100%}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(12px,3vw,28px)}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:4px solid #FFB020;outline-offset:3px;border-radius:10px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 22px;border-radius:999px;border:3px solid var(--ink);background:#fff;color:var(--ink);font-family:Fredoka,Nunito,sans-serif;font-weight:600;font-size:18px;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s;box-shadow:0 4px 0 var(--ink)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:0 4px 0 var(--ink)}
+.btn.big{min-height:64px;font-size:clamp(18px,2.2vw,23px);padding:0 30px}
+.btn.go{background:linear-gradient(180deg,#2FB5FF,#1565C0);color:#fff;border-color:#0B3E7A;box-shadow:0 5px 0 #0B3E7A}
+.btn.go:hover{box-shadow:0 7px 0 #0B3E7A}
+.btn.sun{background:#FFD23F;border-color:#8A5A00;box-shadow:0 5px 0 #8A5A00;color:#3B2600}
+.btn.purple{background:var(--gei);color:#fff;border-color:#3D1773;box-shadow:0 4px 0 #3D1773}
+.btn.small{min-height:46px;font-size:16px;padding:0 16px}
+.btn svg{width:22px;height:22px;flex:0 0 auto}
+.pulse-btn{animation:btnpulse 2.4s ease-in-out infinite}
+@keyframes btnpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+/* ---------- sound bar ---------- */
+.soundbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(255,255,255,.85);border:2px solid var(--line);border-radius:999px;padding:6px 14px 6px 6px}
+.soundbar .lbl{font-weight:800;font-size:15px;color:var(--sub)}
+.iconbtn{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;border:2px solid var(--ink);background:#fff;cursor:pointer;color:var(--ink)}
+.iconbtn svg{width:22px;height:22px}
+.iconbtn[aria-pressed="true"]{background:#FFE0E0}
+input[type=range]{accent-color:var(--water);height:32px;min-width:120px;cursor:pointer}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#9AD8FF 0%,#D4F0FF 45%,#F4FBFF 75%,#FFFFFF 100%)}
+.hero-scene{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-top{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-top:16px}
+.brand{display:flex;align-items:center;gap:10px;font-family:Fredoka,sans-serif;font-weight:700;font-size:18px;color:#0B3E7A;letter-spacing:.5px}
+.brand .dot{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#2fd2ff,#3d3dea);display:grid;place-items:center;color:#fff;font-size:15px}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:clamp(12px,3vw,40px);padding:clamp(14px,3vw,30px) 0 clamp(40px,6vw,80px)}
+.hero h1{font-size:clamp(40px,6.4vw,82px);color:#0B2E6B;letter-spacing:.5px;text-shadow:0 4px 0 #fff,0 7px 0 rgba(11,46,107,.15)}
+.hero h1 .w{color:#1E88E5}
+.hero .subtitle{font-size:clamp(19px,2.3vw,26px);font-weight:800;color:#1B3D6E;margin:16px 0 22px;max-width:560px}
+.hero-btns{display:flex;flex-wrap:wrap;gap:14px}
+.mascot-stage{position:relative;display:flex;flex-direction:column;align-items:center}
+.bubble{position:relative;background:#fff;border:3px solid var(--ink);border-radius:26px;padding:16px 20px;font-weight:800;font-size:clamp(17px,1.8vw,21px);line-height:1.4;color:var(--ink);box-shadow:0 6px 0 rgba(16,35,63,.18)}
+.bubble.down::after{content:"";position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);border:12px solid transparent;border-top:14px solid var(--ink)}
+.bubble.down::before{content:"";position:absolute;left:50%;bottom:-15px;transform:translateX(-50%);border:10px solid transparent;border-top:12px solid #fff;z-index:1}
+.hero .bubble{max-width:520px;margin-bottom:22px;animation:pop .6s cubic-bezier(.3,1.6,.5,1) both .3s}
+.hero-mascot{width:min(100%,520px);aspect-ratio:1/1;position:relative}
+.hero-mascot .glowring{position:absolute;inset:6% 6% 2%;border-radius:50%;background:radial-gradient(circle,#ffffff 0%,rgba(255,255,255,.7) 45%,rgba(255,255,255,0) 70%)}
+.mascot{width:100%;height:100%;object-fit:contain;position:relative;filter:drop-shadow(0 16px 18px rgba(11,46,107,.28));transform-origin:50% 90%}
+.hero .mascot{animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-14px) rotate(1.5deg)}}
+@keyframes pop{0%{opacity:0;transform:scale(.6)}100%{opacity:1;transform:scale(1)}}
+.mascot-fallback{display:none;width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7fe3ff,#1e88e5 55%,#3d3dea);border:6px solid #fff;box-shadow:0 12px 24px rgba(11,46,107,.25);color:#fff;place-items:center;text-align:center;font-family:Fredoka,sans-serif}
+.mascot-fallback b{display:block;font-size:clamp(30px,6vw,64px);line-height:1}
+.mascot-fallback span{font-size:clamp(13px,1.6vw,18px);font-weight:600;opacity:.95}
+.no-mascot .mascot{display:none}
+.no-mascot .mascot-fallback{display:grid}
+.wave-edge{position:absolute;left:0;right:0;bottom:-1px;height:60px;z-index:1}
+@media (max-width:820px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero .subtitle{margin-left:auto;margin-right:auto}
+  .hero-btns{justify-content:center}
+  .mascot-stage{order:-1}
+  .hero-mascot{width:min(68vw,320px)}
+  .hero .bubble{margin-bottom:14px}
+}
+
+/* ---------- sections ---------- */
+section{scroll-margin-top:12px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin:40px 0 16px}
+.sec-head h2{font-size:clamp(28px,4vw,44px);color:#0B2E6B}
+.sec-head p{margin:6px 0 0;color:var(--sub);font-weight:700}
+.kicker{display:inline-block;font-family:Fredoka,sans-serif;font-weight:600;font-size:15px;letter-spacing:1.5px;color:#1565C0;background:#E3F2FF;border-radius:999px;padding:4px 12px;margin-bottom:8px}
+
+/* ---------- journey map ---------- */
+.mapbox{position:relative;border-radius:var(--radius);overflow:hidden;border:3px solid #0B3E7A;background:linear-gradient(180deg,#BFE6FF 0%,#E9F7FF 50%,#7CC46E 50%,#5FA956 100%);aspect-ratio:16/9;box-shadow:0 10px 0 rgba(11,62,122,.12)}
+@media (max-width:700px){.mapbox{aspect-ratio:1/1}}
+#J{display:block;width:100%;height:100%}
+.map-bubble{position:relative;margin-top:12px;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:8px 14px;font-weight:800;font-size:clamp(14px,1.7vw,18px);line-height:1.35;box-shadow:0 4px 0 rgba(16,35,63,.2);z-index:3}
+.map-bubble .who{display:block;font-family:Fredoka,sans-serif;font-weight:600;font-size:13px;letter-spacing:1px;color:var(--st)}
+.map-tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin:14px 0 6px}
+.stepper{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-top:10px}
+@media (max-width:900px){.stepper{grid-template-columns:repeat(4,1fr)}}
+.step{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:84px;padding:8px 4px;border-radius:18px;border:3px solid var(--line);background:#fff;cursor:pointer;color:var(--ink);font-family:Fredoka,sans-serif;font-weight:600;font-size:clamp(13px,1.4vw,16px);line-height:1.1;text-align:center;transition:transform .15s,border-color .15s}
+.step:hover{transform:translateY(-2px)}
+.step .n{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--c,#1565C0);color:#fff;font-size:18px}
+.step[aria-current="step"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,#fff);box-shadow:0 4px 0 var(--c)}
+.step .done{position:absolute;top:-8px;right:-6px;width:26px;height:26px;border-radius:50%;background:var(--good);color:#fff;display:none;place-items:center;border:2px solid #fff}
+.step.is-done .done{display:grid}
+.step .done svg{width:14px;height:14px}
+
+/* SVG journey animation classes */
+.cloud{animation:drift linear infinite}
+@keyframes drift{from{transform:translateX(-360px)}to{transform:translateX(1900px)}}
+.bird{animation:fly linear infinite}
+@keyframes fly{from{transform:translate(-120px,0)}to{transform:translate(1750px,-60px)}}
+.flap{animation:flap .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes flap{to{transform:scaleY(.4)}}
+.flow{stroke-dasharray:16 20;animation:flowd 1.1s linear infinite}
+.flow.slow{animation-duration:1.8s}
+@keyframes flowd{to{stroke-dashoffset:-36}}
+.spin{transform-box:fill-box;transform-origin:center}
+.sparkle{animation:twinkle 2.2s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1)}}
+.bubbleup{animation:bubbleup 1.8s ease-in infinite}
+@keyframes bubbleup{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-34px);opacity:0}}
+.snow{animation:snowfall linear infinite}
+@keyframes snowfall{from{transform:translateY(-40px)}to{transform:translateY(240px)}}
+.grain{animation:grain 1.2s linear infinite}
+@keyframes grain{from{transform:translateY(0);opacity:1}to{transform:translateY(14px);opacity:0}}
+.bob{animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.sunray{transform-box:fill-box;transform-origin:center;animation:spinr 40s linear infinite}
+@keyframes spinr{to{transform:rotate(360deg)}}
+@keyframes spinl{to{transform:rotate(-360deg)}}
+
+.sp{opacity:0;transition:opacity .7s;pointer-events:none}
+#J.at-1 .sp1,#J.at-2 .sp2,#J.at-3 .sp3,#J.at-4 .sp4,#J.at-5 .sp5,#J.at-6 .sp6,#J.at-7 .sp7,#J.at-8 .sp8{opacity:1}
+#jRes{transition:transform 2.2s ease;transform:translateY(46px)}
+#J.r4 #jRes{transform:none}
+#jPond{transition:transform 2.2s ease;transform:translateY(52px)}
+#J.r5 #jPond{transform:none}
+#jGate{transition:transform 2s ease}
+#J.r6 #jGate{transform:translateY(-38px)}
+#jHand{transition:transform 2s ease}
+#J.r6 #jHand{transform:rotate(540deg)}
+.wet{opacity:0;transition:opacity 1s .2s}
+#J.r4 .wet4,#J.r6 .wet6,#J.r8 .wet8{opacity:1}
+#J.r6 #jWheel{animation:spinr 5s linear infinite}
+#J.at-7 #jWheel,#J.at-8 #jWheel{animation-duration:3s}
+#J.r6 .gearA{animation:spinr 3s linear infinite}
+#J.r6 .gearB{animation:spinl 1.6s linear infinite}
+#J.r8 .stoneR{animation:spinr 2s linear infinite}
+.stop{cursor:pointer}
+.stop circle.ring{fill:#fff;stroke:var(--sc);stroke-width:5;transition:r .3s}
+.stop .bg{fill:var(--sc)}
+.stop text{font-family:Fredoka,sans-serif;font-weight:700;font-size:26px;fill:#fff;pointer-events:none}
+.stop:hover .bg,.stop:focus-visible .bg{filter:brightness(1.15)}
+.stop:focus-visible{outline:none}
+.stop:focus-visible circle.ring{stroke:#FFB020;stroke-width:8}
+.stop.on circle.halo{animation:halo 1.6s ease-out infinite}
+@keyframes halo{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(2)}}
+.halo{transform-box:fill-box;transform-origin:center;opacity:0;fill:none;stroke-width:5}
+.hl{fill:rgba(255,210,63,.18);stroke:#FFB020;stroke-width:5;stroke-dasharray:14 10;opacity:0;transition:opacity .5s;pointer-events:none;animation:march 1.4s linear infinite}
+@keyframes march{to{stroke-dashoffset:-48}}
+#J.at-1 .hl1,#J.at-2 .hl2,#J.at-3 .hl3,#J.at-4 .hl4,#J.at-5 .hl5,#J.at-6 .hl6,#J.at-7 .hl7,#J.at-8 .hl8{opacity:1}
+#mapAdam{transition:transform 1s cubic-bezier(.5,1.4,.5,1)}
+#mapAdam .hop{animation:hop 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes hop{0%,70%,100%{transform:translateY(0)}80%{transform:translateY(-16px)}90%{transform:translateY(0) scaleY(.95)}}
+
+/* ---------- station card ---------- */
+.station{position:relative;margin-top:22px;border-radius:30px;border:3px solid var(--st);background:#fff;overflow:hidden;box-shadow:0 10px 0 color-mix(in srgb,var(--st) 25%,transparent)}
+.st-band{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 22px;background:linear-gradient(90deg,var(--st),color-mix(in srgb,var(--st) 70%,#2fd2ff));color:#fff}
+.st-band .bign{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:#fff;color:var(--st);font-family:Fredoka,sans-serif;font-weight:700;font-size:28px;flex:0 0 auto}
+.st-band .eyebrow{font-family:Fredoka,sans-serif;font-weight:600;letter-spacing:2px;font-size:15px;opacity:.95}
+.st-band h2{font-size:clamp(26px,3.6vw,40px)}
+.st-intro{display:grid;grid-template-columns:minmax(180px,330px) 1fr;gap:clamp(12px,3vw,30px);align-items:center;padding:22px;background:radial-gradient(circle at 20% 40%,color-mix(in srgb,var(--st) 12%,#fff),#fff 70%)}
+.st-adam{position:relative;aspect-ratio:1/1;width:100%}
+.st-adam .mascot{animation:float 4.5s ease-in-out infinite}
+.st-adam.cheer .mascot{animation:cheer .9s ease-in-out 2}
+@keyframes cheer{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-30px) rotate(-8deg) scale(1.05)}50%{transform:translateY(0) rotate(0)}75%{transform:translateY(-22px) rotate(8deg) scale(1.04)}}
+.st-adam.think .mascot{animation:tilt 1s ease-in-out 2}
+@keyframes tilt{0%,100%{transform:rotate(0)}50%{transform:rotate(-7deg)}}
+.st-intro .bubble{font-size:clamp(18px,2vw,22px)}
+.bubble.left::after{content:"";position:absolute;left:-24px;top:40px;border:12px solid transparent;border-right:14px solid var(--ink)}
+.bubble.left::before{content:"";position:absolute;left:-17px;top:42px;border:10px solid transparent;border-right:12px solid #fff;z-index:1}
+@media (max-width:760px){
+  .st-intro{grid-template-columns:1fr;justify-items:center;text-align:left}
+  .st-adam{width:min(72vw,300px)}
+  .bubble.left::after,.bubble.left::before{display:none}
+}
+
+/* reader */
+.reader{margin:0 22px 22px;border:3px solid #0B3E7A;border-radius:24px;background:#F5FBFF;padding:16px}
+.reader-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.reader-top .ava{width:64px;height:64px;flex:0 0 auto;position:relative}
+.reader-top .ava .mascot{animation:none;filter:none}
+.reader-top .ava .mascot-fallback b{font-size:18px}
+.reader-top .ava .mascot-fallback span{display:none}
+.reader-top h3{font-size:22px;color:#0B3E7A}
+.reader-top p{margin:0;font-weight:800;color:var(--sub);font-size:16px}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 10px}
+.seg button{min-height:48px;padding:0 16px;border-radius:999px;border:3px solid #9CC7EA;background:#fff;font-family:Fredoka,sans-serif;font-weight:600;font-size:17px;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:#0B3E7A;border-color:#0B3E7A;color:#fff}
+.seg button.g[aria-pressed="true"]{background:var(--gei);border-color:var(--gei)}
+.rctl{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media (max-width:640px){.rctl{grid-template-columns:repeat(2,minmax(0,1fr))}.rctl .play{grid-column:span 2}}
+.rctl .btn{min-width:0;min-height:58px;font-size:17px;padding:0 10px;box-shadow:0 4px 0 #0B3E7A;border-color:#0B3E7A;color:#0B3E7A}
+.rctl .btn.play{background:#1565C0;color:#fff}
+.rprog{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.rbar{flex:1 1 200px;height:16px;border-radius:999px;background:#DCEBF8;overflow:hidden;border:2px solid #9CC7EA}
+.rbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2fd2ff,#1565C0);transition:width .4s}
+.rstat{font-weight:800;font-size:15px;color:var(--sub);min-width:150px}
+.ropts{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:10px;font-weight:800;font-size:15px;color:var(--sub)}
+.ropts label{display:flex;align-items:center;gap:8px}
+.ropts select{min-height:44px;border-radius:12px;border:2px solid #9CC7EA;padding:0 10px;max-width:260px;background:#fff}
+.rmsg{margin:10px 0 0;padding:10px 14px;border-radius:14px;background:#FFF4D6;color:#5A3B00;font-weight:800;font-size:15px;display:none}
+.speaking{background:#FFE98A;border-radius:6px;box-shadow:0 0 0 4px #FFE98A;transition:background .2s}
+
+/* learning panels */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media (max-width:900px){.panels{grid-template-columns:1fr}}
+.pane{padding:22px}
+.pane.eng{background:var(--engBg);border-top:3px solid var(--engLine)}
+.pane.gei{background:var(--geiBg);border-top:3px solid var(--geiLine)}
+@media (min-width:901px){.pane.gei{border-left:3px solid var(--geiLine)}}
+.tagline{display:inline-flex;align-items:center;gap:8px;font-family:Fredoka,sans-serif;font-weight:600;letter-spacing:1.5px;font-size:15px;border-radius:999px;padding:5px 14px;color:#fff}
+.pane.eng .tagline{background:var(--eng)}
+.pane.gei .tagline{background:var(--gei)}
+.pane h3{font-size:clamp(22px,2.4vw,28px);margin:12px 0 8px}
+.pane.eng h3{color:#0B3E7A}
+.pane.gei h3{color:#3D1773}
+.pane p{margin:0 0 12px}
+.howit{background:#fff;border:2px solid var(--engLine);border-radius:18px;padding:12px 16px;margin:14px 0}
+.howit strong{font-family:Fredoka,sans-serif;font-weight:600;color:#0B3E7A}
+.words{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:10px}
+.word{background:#fff;border:2px solid var(--engLine);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.word b{font-family:Fredoka,sans-serif;font-weight:600;font-size:20px;color:var(--eng)}
+.word span{font-size:16px;line-height:1.45}
+.word button{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:999px;border:2px solid var(--eng);background:#fff;color:var(--eng);font-weight:800;font-size:15px;cursor:pointer}
+.word button svg{width:18px;height:18px}
+.verse{background:#fff;border:2px solid var(--geiLine);border-radius:18px;padding:14px 16px;margin:12px 0}
+.verse q{display:block;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:18px;line-height:1.5;color:#2A1554;quotes:"\201C" "\201D"}
+.verse cite{display:block;margin-top:6px;font-style:normal;font-weight:800;font-size:15px;color:var(--gei)}
+.wonder{display:block;background:#fff;border:3px dashed var(--gei);border-radius:18px;padding:12px 16px;margin-top:12px;font-weight:700}
+.wonder b{display:block;font-family:Fredoka,sans-serif;font-size:19px;color:var(--gei);margin-bottom:4px}
+.dam-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+@media (max-width:560px){.dam-grid{grid-template-columns:1fr}}
+.dam-grid div{background:#fff;border:2px solid var(--geiLine);border-radius:18px;padding:12px}
+.dam-grid .L{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:var(--gei);color:#fff;font-family:Fredoka,sans-serif;font-weight:700;font-size:30px;margin-bottom:6px}
+.dam-grid b{font-family:Fredoka,sans-serif;font-weight:600;font-size:20px;color:#3D1773;display:block}
+.dam-grid span{font-size:16px;line-height:1.45}
+.note-interp{font-size:15px;font-weight:800;color:#4B2A86;background:#fff;border-left:6px solid var(--gei);border-radius:10px;padding:8px 12px;margin-top:12px}
+.reveal{margin-top:10px}
+
+/* quiz */
+.quiz{padding:22px;border-top:3px solid #FFE08A;background:#FFFBEA}
+.quiz .tagline{background:#B7791F}
+.quiz h3{font-size:clamp(22px,2.6vw,30px);margin:12px 0 14px;color:#5A3B00}
+.choices{display:grid;gap:10px}
+.choice{display:flex;align-items:center;gap:14px;min-height:60px;padding:10px 18px;border-radius:18px;border:3px solid #E6C55A;background:#fff;color:var(--ink);font-weight:800;font-size:18px;text-align:left;cursor:pointer;transition:transform .12s}
+.choice:hover{transform:translateX(4px)}
+.choice .ltr{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#FFE08A;font-family:Fredoka,sans-serif;font-weight:700;flex:0 0 auto}
+.choice.right{border-color:var(--good);background:#E7F8EE}
+.choice.right .ltr{background:var(--good);color:#fff}
+.choice.wrong{border-color:#C2410C;background:#FFF1E8;opacity:.8}
+.choice[disabled]{cursor:default;transform:none}
+.feedback{margin-top:14px;display:none;gap:14px;align-items:center;background:#fff;border:3px solid var(--ink);border-radius:20px;padding:12px 16px}
+.feedback.show{display:flex}
+.feedback .fa{width:72px;height:72px;flex:0 0 auto;position:relative}
+.feedback .fa .mascot{animation:none}
+.feedback .fa .mascot-fallback b{font-size:18px}.feedback .fa .mascot-fallback span{display:none}
+.feedback.good{border-color:var(--good)}
+.feedback.good .fa .mascot{animation:cheer .9s ease-in-out 2}
+.feedback p{margin:0;font-weight:700}
+.feedback strong{font-family:Fredoka,sans-serif;font-size:20px}
+.st-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:18px 22px;border-top:3px solid #EEF4FA}
+
+/* confetti */
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:20}
+.confetti i{position:absolute;top:-20px;width:12px;height:16px;border-radius:3px;animation:fall 1.8s cubic-bezier(.3,.6,.6,1) forwards}
+.confetti i.drop{width:14px;height:18px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%}
+@keyframes fall{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(520px) rotate(540deg);opacity:0}}
+.splash{position:absolute;inset:0;pointer-events:none;z-index:15;background:radial-gradient(circle at 50% 0%,rgba(47,210,255,.55),rgba(47,210,255,0) 60%);opacity:0}
+.splash.go{animation:splash .9s ease-out}
+@keyframes splash{0%{opacity:0;transform:translateY(-40px)}30%{opacity:1}100%{opacity:0;transform:translateY(30px)}}
+
+/* ---------- LAB ---------- */
+.lab{border-radius:30px;border:3px solid #0E7490;background:linear-gradient(180deg,#E9FBFF,#FFFFFF);overflow:hidden;box-shadow:0 10px 0 rgba(14,116,144,.18);position:relative}
+.lab-head{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center;padding:18px 22px;background:linear-gradient(90deg,#0E7490,#22B8CF);color:#fff}
+.lab-head .ava{width:150px;aspect-ratio:1/1;position:relative}
+.lab-head .ava .mascot{animation:float 4s ease-in-out infinite;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))}
+.lab-head h2{font-size:clamp(28px,4vw,42px)}
+.lab-head p{margin:6px 0 0;font-weight:800;font-size:clamp(17px,2vw,21px)}
+@media (max-width:600px){.lab-head{grid-template-columns:96px 1fr}.lab-head .ava{width:96px}}
+.lab-body{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;padding:18px 22px 22px}
+@media (max-width:980px){.lab-body{grid-template-columns:1fr}}
+.lab-svgbox{border:3px solid #0E7490;border-radius:22px;background:#F0FBFF;overflow:hidden}
+#L{display:block;width:100%;height:auto}
+.lab-say{margin-top:12px}
+.ctrls{display:grid;gap:12px}
+.ctrl{background:#fff;border:3px solid #A5E3EF;border-radius:20px;padding:12px 16px}
+.ctrl label{display:flex;justify-content:space-between;gap:10px;font-family:Fredoka,sans-serif;font-weight:600;font-size:19px;color:#0B4F60}
+.ctrl input[type=range]{width:100%;height:40px;accent-color:#0E7490}
+.ctrl .hint{font-size:15px;font-weight:700;color:var(--sub);margin:0}
+.lab-btns{display:flex;flex-wrap:wrap;gap:10px}
+.gauges{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
+@media (max-width:640px){.gauges{grid-template-columns:repeat(2,1fr)}.gauges div:last-child{grid-column:span 2}}
+.gauges div{background:#fff;border:3px solid #A5E3EF;border-radius:16px;padding:8px 10px;text-align:center}
+.gauges b{display:block;font-family:Fredoka,sans-serif;font-size:26px;color:#0E7490;line-height:1.1}
+.gauges span{font-size:14px;font-weight:800;color:var(--sub)}
+.missions{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.missions li{display:flex;gap:12px;align-items:center;background:#fff;border:3px solid #E2E8F0;border-radius:16px;padding:10px 14px;font-weight:800;font-size:16px}
+.missions li .ck{width:32px;height:32px;border-radius:50%;border:3px solid #94A3B8;flex:0 0 auto;display:grid;place-items:center}
+.missions li .ck svg{width:18px;height:18px;opacity:0}
+.missions li.done{border-color:var(--good);background:#E7F8EE}
+.missions li.done .ck{background:var(--good);border-color:var(--good)}
+.missions li.done .ck svg{opacity:1}
+#Lwheel{transform-box:fill-box;transform-origin:center}
+#Lgear{transform-box:fill-box;transform-origin:center}
+
+/* ---------- CHALLENGE ---------- */
+.challenge{border-radius:30px;border:3px solid #B45309;background:linear-gradient(180deg,#FFF8E1,#FFFFFF);padding:22px;position:relative;overflow:hidden;box-shadow:0 10px 0 rgba(180,83,9,.15)}
+.ch-intro{display:grid;grid-template-columns:200px 1fr;gap:18px;align-items:center}
+@media (max-width:640px){.ch-intro{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.ch-intro .ava{width:200px;aspect-ratio:1/1;position:relative}
+.ch-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.score{font-family:Fredoka,sans-serif;font-weight:700;font-size:24px;color:#8A4B00;background:#fff;border:3px solid #E6C55A;border-radius:999px;padding:6px 18px}
+.qprog{display:flex;gap:6px}
+.qprog i{width:22px;height:22px;border-radius:50%;background:#F1E4BF;border:2px solid #E6C55A}
+.qprog i.ok{background:var(--good);border-color:var(--good)}
+.qprog i.miss{background:#FDBA74;border-color:#C2410C}
+.qprog i.cur{outline:3px solid #B45309;outline-offset:2px}
+
+/* certificate */
+.cert{position:relative;max-width:900px;margin:10px auto 0;background:#fff;border:10px double #B7791F;border-radius:24px;padding:clamp(18px,4vw,40px);text-align:center;background-image:radial-gradient(circle at 10% 10%,#E6F7FF 0,transparent 30%),radial-gradient(circle at 90% 90%,#F3ECFF 0,transparent 30%)}
+.cert .seal{width:clamp(110px,18vw,170px);aspect-ratio:1/1;margin:0 auto 8px;position:relative}
+.cert .seal .mascot{animation:none}
+.cert h3{font-size:clamp(26px,4vw,44px);color:#0B2E6B}
+.cert .who{font-family:Fredoka,sans-serif;font-weight:700;font-size:clamp(30px,5vw,52px);color:var(--gei);border-bottom:3px solid #E6C55A;display:inline-block;padding:0 18px;margin:8px 0}
+.cert p{margin:6px 0;font-weight:700}
+.cert .badges{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:14px 0}
+.cert .badges span{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;color:#fff;font-family:Fredoka,sans-serif;font-weight:700}
+.cert .sigs{display:flex;justify-content:space-around;flex-wrap:wrap;gap:16px;margin-top:18px}
+.cert .sigs div{min-width:220px;border-top:2px solid var(--ink);padding-top:6px;font-weight:800;font-size:15px}
+.cert .sigs em{display:block;font-family:Fredoka,sans-serif;font-style:normal;font-size:22px;color:#0B3E7A}
+.namefield{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:12px 0}
+.namefield input{min-height:52px;border-radius:14px;border:3px solid #E6C55A;padding:0 14px;font-size:20px;font-weight:800;width:min(100%,340px)}
+
+footer{margin:46px 0 30px;padding:18px 20px;border-radius:20px;background:#F4F8FC;color:var(--sub);font-size:15px;font-weight:700;line-height:1.6}
+footer a{color:#4B2A86;font-weight:800}
+
+@media (prefers-reduced-motion:reduce){
+  .hero .mascot,.st-adam .mascot,.lab-head .ava .mascot,.pulse-btn,.cloud,.bird,.flap,.sparkle,.bubbleup,.snow,.grain,.bob,.sunray,.flow,.hl,#mapAdam .hop,.stop.on circle.halo{animation:none!important}
+  .cloud,.bird{display:none}
+}
+@media print{
+  body *{visibility:hidden}
+  #certWrap,#certWrap *{visibility:visible}
+  #certWrap{position:absolute;left:0;top:0;width:100%}
+  .noprint{display:none!important}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ======================= HERO ======================= -->
+<header class="hero" id="top">
+  <svg class="hero-scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="hMt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9FB4C8"></stop><stop offset="1" stop-color="#6E8FA8"></stop></linearGradient>
+      <linearGradient id="hFall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BDEBFF"></stop><stop offset="1" stop-color="#3FA9F5"></stop></linearGradient>
+      <linearGradient id="hLake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5CC2FF"></stop><stop offset="1" stop-color="#1E88E5"></stop></linearGradient>
+    </defs>
+    <g class="cloud" style="animation-duration:70s;animation-delay:-20s"><ellipse cx="0" cy="120" rx="90" ry="34" fill="#fff"></ellipse><ellipse cx="60" cy="100" rx="60" ry="40" fill="#fff"></ellipse><ellipse cx="-50" cy="108" rx="50" ry="30" fill="#fff"></ellipse></g>
+    <g class="cloud" style="animation-duration:95s;animation-delay:-60s"><ellipse cx="0" cy="210" rx="120" ry="38" fill="#fff" opacity=".9"></ellipse><ellipse cx="70" cy="188" rx="70" ry="42" fill="#fff" opacity=".9"></ellipse></g>
+    <g class="cloud" style="animation-duration:80s;animation-delay:-5s"><ellipse cx="0" cy="70" rx="70" ry="26" fill="#fff" opacity=".85"></ellipse><ellipse cx="40" cy="56" rx="46" ry="30" fill="#fff" opacity=".85"></ellipse></g>
+    <path d="M-20,760 L180,470 L300,300 L420,150 L520,300 L600,240 L760,470 L900,640 L1000,760 Z" fill="url(#hMt)"></path>
+    <path d="M360,226 L420,150 L470,224 L452,218 L436,240 L420,222 L398,246 L380,228 Z" fill="#fff"></path>
+    <path d="M568,282 L600,240 L640,300 L620,294 L604,310 L588,294 Z" fill="#fff"></path>
+    <path d="M1000,780 L1180,540 L1300,420 L1400,520 L1520,460 L1640,600 L1640,780 Z" fill="#A9C7DA" opacity=".8"></path>
+    <path d="M-20,800 C200,700 420,720 640,680 C820,650 980,700 1200,670 C1400,640 1520,680 1640,660 L1640,900 L-20,900 Z" fill="#8CD47E"></path>
+    <path d="M-20,850 C240,790 520,820 820,790 C1100,760 1360,800 1640,770 L1640,900 L-20,900 Z" fill="#6CC062"></path>
+    <rect x="500" y="420" width="44" height="300" rx="20" fill="url(#hFall)"></rect>
+    <path class="flow" d="M512,420 L512,720 M530,430 L530,720" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".85"></path>
+    <ellipse cx="522" cy="735" rx="150" ry="30" fill="url(#hLake)"></ellipse>
+    <g fill="#fff"><circle class="bubbleup" cx="480" cy="728" r="7"></circle><circle class="bubbleup" cx="560" cy="730" r="6" style="animation-delay:.6s"></circle><circle class="bubbleup" cx="520" cy="722" r="5" style="animation-delay:1.1s"></circle></g>
+    <g fill="#FFFFFF"><path class="sparkle" d="M460,742 l5,-12 l5,12 l12,5 l-12,5 l-5,12 l-5,-12 l-12,-5 Z" style="transform-box:fill-box;transform-origin:center"></path><path class="sparkle" d="M600,746 l4,-9 l4,9 l9,4 l-9,4 l-4,9 l-4,-9 l-9,-4 Z" style="transform-box:fill-box;transform-origin:center;animation-delay:.9s"></path></g>
+    <g class="bird" style="animation-duration:26s"><path class="flap" d="M0,240 q12,-14 24,0 q12,-14 24,0" fill="none" stroke="#1B3D6E" stroke-width="4" stroke-linecap="round"></path></g>
+    <g class="bird" style="animation-duration:32s;animation-delay:-12s"><path class="flap" d="M0,300 q9,-11 18,0 q9,-11 18,0" fill="none" stroke="#1B3D6E" stroke-width="3.5" stroke-linecap="round"></path></g>
+    <g fill="#7FD3FF" opacity=".8">
+      <path class="bob" d="M1240,300 C1248,312 1254,320 1254,328 A14,14 0 0 1 1226,328 C1226,320 1232,312 1240,300 Z"></path>
+      <path class="bob" style="animation-delay:-1s" d="M1420,220 C1426,229 1430,235 1430,241 A10,10 0 0 1 1410,241 C1410,235 1414,229 1420,220 Z"></path>
+      <path class="bob" style="animation-delay:-2s" d="M140,360 C146,369 150,375 150,381 A10,10 0 0 1 130,381 C130,375 134,369 140,360 Z"></path>
+      <path class="bob" style="animation-delay:-1.5s" d="M1100,140 C1105,148 1108,153 1108,158 A8,8 0 0 1 1092,158 C1092,153 1095,148 1100,140 Z"></path>
+    </g>
+  </svg>
+  <svg class="wave-edge" viewBox="0 0 1600 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C200,0 400,60 600,30 C800,0 1000,60 1200,30 C1400,0 1500,40 1600,24 L1600,60 L0,60 Z" fill="#fff"></path></svg>
+
+  <div class="wrap">
+    <div class="hero-top">
+      <div class="brand"><span class="dot" aria-hidden="true">GEI</span> YallToo · Genesis Engineered Interpretation</div>
+      <div class="soundbar" role="group" aria-label="Sound effects">
+        <button class="iconbtn sfx-mute" type="button" aria-pressed="false" aria-label="Mute sound effects"></button>
+        <span class="lbl">Sound effects</span>
+        <input class="sfx-vol" type="range" min="0" max="100" value="55" aria-label="Sound effects volume">
+      </div>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1>THE GREAT <span class="w">WATER</span> ADVENTURE!</h1>
+        <p class="subtitle">Follow ADAM THE DAM BEAVER on an exciting journey from the mountain to the mill!</p>
+        <div class="hero-btns">
+          <button class="btn go big pulse-btn" type="button" id="startBtn">START MY WATER ADVENTURE!</button>
+          <button class="btn sun big" type="button" id="showBtn">LET ADAM SHOW ME!</button>
+        </div>
+      </div>
+      <div class="mascot-stage">
+        <p class="bubble down">"Hey, explorer! Did you know one little drop of water can travel down a mountain, fill a giant pond, open a giant gate, spin a giant wheel, and help make flour? Come on! I'll show you!"</p>
+        <div class="hero-mascot mascot-slot" data-alt="Adam the Dam Beaver, your tour guide, waving hello"><div class="glowring"></div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ======================= JOURNEY ======================= -->
+<section id="journey" aria-labelledby="jTitle">
+  <div class="sec-head">
+    <div>
+      <span class="kicker">THE WATER JOURNEY MAP</span>
+      <h2 id="jTitle">From the Mountain to the Mill</h2>
+      <p>Tap a numbered stop — or press play and watch one drop travel the whole way!</p>
+    </div>
+  </div>
+
+  <div class="mapbox" id="mapbox">
+    <div class="confetti" id="mapFx"></div>
+    <svg id="J" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Animated map of the water journey: mountain, tributaries, river, dam, millpond, sluice gate, waterwheel and millhouse">
+      <defs>
+        <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AD8FF"></stop><stop offset="1" stop-color="#EAF8FF"></stop></linearGradient>
+        <linearGradient id="gRock" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A9BBCC"></stop><stop offset="1" stop-color="#7890A6"></stop></linearGradient>
+        <linearGradient id="gGrass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#86D17A"></stop><stop offset="1" stop-color="#4FA44B"></stop></linearGradient>
+        <linearGradient id="gW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5CC2FF"></stop><stop offset="1" stop-color="#1565C0"></stop></linearGradient>
+        <linearGradient id="gConc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E2DED6"></stop><stop offset="1" stop-color="#B1ABA0"></stop></linearGradient>
+        <pattern id="pHatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="#8C7A5B" stroke-width="2"></line></pattern>
+        <clipPath id="cRes"><path d="M856,612 C880,690 960,712 1004,712 L1004,600 L856,600 Z"></path></clipPath>
+        <clipPath id="cPond"><path d="M1100,680 C1108,770 1250,772 1286,758 L1286,680 Z"></path></clipPath>
+        <radialGradient id="gDrop" cx=".35" cy=".35" r=".8"><stop offset="0" stop-color="#ffffff"></stop><stop offset=".4" stop-color="#7FE3FF"></stop><stop offset="1" stop-color="#1E88E5"></stop></radialGradient>
+      </defs>
+
+      <rect x="-400" y="-300" width="2400" height="1500" fill="url(#gSky)"></rect>
+      <!-- sun -->
+      <g class="sp1" style="opacity:1">
+        <g class="sunray"><path d="M1460,30 L1468,70 M1460,190 L1468,150 M1380,110 L1420,118 M1540,110 L1500,118 M1405,55 L1432,84 M1515,165 L1488,136 M1515,55 L1488,84 M1405,165 L1432,136" stroke="#FFC83D" stroke-width="8" stroke-linecap="round"></path></g>
+        <circle cx="1464" cy="110" r="44" fill="#FFD84D" stroke="#FFC23D" stroke-width="6"></circle>
+      </g>
+      <!-- clouds -->
+      <g class="cloud" style="animation-duration:80s;animation-delay:-30s"><ellipse cx="0" cy="90" rx="80" ry="30" fill="#fff"></ellipse><ellipse cx="50" cy="72" rx="56" ry="36" fill="#fff"></ellipse><ellipse cx="-46" cy="80" rx="44" ry="26" fill="#fff"></ellipse></g>
+      <g class="cloud" style="animation-duration:110s;animation-delay:-70s"><ellipse cx="0" cy="170" rx="100" ry="32" fill="#fff" opacity=".9"></ellipse><ellipse cx="60" cy="150" rx="60" ry="38" fill="#fff" opacity=".9"></ellipse></g>
+      <g class="bird" style="animation-duration:30s;animation-delay:-8s"><path class="flap" d="M0,230 q12,-14 24,0 q12,-14 24,0" fill="none" stroke="#1B3D6E" stroke-width="4" stroke-linecap="round"></path></g>
+      <g class="bird" style="animation-duration:38s;animation-delay:-22s"><path class="flap" d="M0,280 q9,-11 18,0 q9,-11 18,0" fill="none" stroke="#1B3D6E" stroke-width="3.5" stroke-linecap="round"></path></g>
+
+      <!-- far hills -->
+      <path d="M-400,640 C0,520 300,560 600,520 C800,500 1000,560 1200,530 C1400,500 1600,540 2000,500 L2000,1200 L-400,1200 Z" fill="#B9E3A6"></path>
+
+      <!-- MOUNTAIN -->
+      <path d="M-400,860 L0,760 L120,560 L220,380 L330,140 L410,290 L470,230 L560,380 L660,520 L780,640 L840,900 L-400,900 Z" fill="url(#gRock)"></path>
+      <path d="M330,140 L410,290 L470,230 L560,380 L660,520 L780,640 L780,700 L560,560 L430,420 L360,300 Z" fill="#5E7489" opacity=".25"></path>
+      <path d="M-400,900 L-400,800 L0,800 L100,640 C200,610 260,540 340,520 C440,500 520,480 600,510 L700,590 L800,660 L860,900 Z" fill="url(#gGrass)"></path>
+      <path d="M262,300 L330,140 L410,290 L470,230 L505,282 L480,276 L455,300 L430,285 L405,320 L380,295 L350,330 L325,300 L295,330 Z" fill="#fff" stroke="#D6E6F2" stroke-width="2"></path>
+      <!-- trees -->
+      <g fill="#2F8A3E">
+        <path d="M120,700 C108,700 100,690 104,676 L120,636 L136,676 C140,690 132,700 120,700 Z"></path>
+        <path d="M170,720 C158,720 150,710 154,696 L170,656 L186,696 C190,710 182,720 170,720 Z"></path>
+        <path d="M640,640 C628,640 620,630 624,616 L640,576 L656,616 C660,630 652,640 640,640 Z"></path>
+        <path d="M700,690 C688,690 680,680 684,666 L700,626 L716,666 C720,680 712,690 700,690 Z"></path>
+        <path d="M1150,800 C1138,800 1130,790 1134,776 L1150,736 L1166,776 C1170,790 1162,800 1150,800 Z"></path>
+        <path d="M1230,810 C1218,810 1210,800 1214,786 L1230,746 L1246,786 C1250,800 1242,810 1230,810 Z"></path>
+      </g>
+      <g fill="#6B4A2B"><rect x="117" y="698" width="6" height="12"></rect><rect x="167" y="718" width="6" height="12"></rect><rect x="637" y="638" width="6" height="12"></rect><rect x="697" y="688" width="6" height="12"></rect><rect x="1147" y="798" width="6" height="12"></rect><rect x="1227" y="808" width="6" height="12"></rect></g>
+
+      <!-- springs -->
+      <g fill="#1E88E5"><circle cx="300" cy="360" r="9"></circle><circle cx="420" cy="330" r="9"></circle><circle cx="520" cy="400" r="9"></circle></g>
+      <g fill="#BFEFFF"><circle class="bubbleup" cx="300" cy="352" r="5"></circle><circle class="bubbleup" cx="420" cy="322" r="5" style="animation-delay:.6s"></circle><circle class="bubbleup" cx="520" cy="392" r="5" style="animation-delay:1.2s"></circle></g>
+
+      <!-- TRIBUTARIES -->
+      <g fill="none" stroke-linecap="round">
+        <path d="M300,360 C320,440 380,500 470,540 C540,570 600,590 640,600" stroke="#1E88E5" stroke-width="12"></path>
+        <path d="M420,330 C430,400 470,460 540,510 C580,540 620,580 640,600" stroke="#1E88E5" stroke-width="11"></path>
+        <path d="M520,400 C540,450 580,500 610,540 C625,565 635,585 640,600" stroke="#1E88E5" stroke-width="10"></path>
+        <path class="flow" d="M300,360 C320,440 380,500 470,540 C540,570 600,590 640,600" stroke="#BFEFFF" stroke-width="4"></path>
+        <path class="flow" d="M420,330 C430,400 470,460 540,510 C580,540 620,580 640,600" stroke="#BFEFFF" stroke-width="4"></path>
+        <path class="flow" d="M520,400 C540,450 580,500 610,540 C625,565 635,585 640,600" stroke="#BFEFFF" stroke-width="3.5"></path>
+      </g>
+
+      <!-- GROUND -->
+      <path d="M600,640 C700,628 770,640 856,612 C880,690 960,712 1004,712 L1100,712 L1100,690 C1108,770 1250,772 1286,758 L1286,700 L1316,700 C1340,705 1350,740 1352,790 L1352,848 L2000,848 L2000,1200 L600,1200 Z" fill="url(#gGrass)"></path>
+      <path d="M1352,848 L2000,848 L2000,1200 L1352,1200 Z" fill="#5FA956"></path>
+
+      <!-- RIVER -->
+      <path d="M640,600 C700,630 760,612 800,636 C830,654 846,640 866,630" fill="none" stroke="#1E88E5" stroke-width="30" stroke-linecap="round"></path>
+      <path class="flow slow" d="M640,600 C700,630 760,612 800,636 C830,654 846,640 866,630" fill="none" stroke="#BFEFFF" stroke-width="5" stroke-linecap="round"></path>
+
+      <!-- RESERVOIR + DAM -->
+      <path d="M856,612 C880,690 960,712 1004,712 L1004,700 L856,700 Z" fill="#6E5A3E" opacity=".25"></path>
+      <g clip-path="url(#cRes)"><g id="jRes"><rect x="840" y="604" width="180" height="140" fill="url(#gW)"></rect><path class="flow slow" d="M870,616 L990,616" stroke="#D6F3FF" stroke-width="4"></path></g></g>
+      <rect class="sp sp4" x="986" y="712" width="110" height="26" fill="url(#pHatch)" stroke="#6E5A3E" stroke-width="2"></rect>
+      <path d="M1000,588 L1034,588 C1040,630 1058,680 1092,712 L1000,712 Z" fill="url(#gConc)" stroke="#6F6A62" stroke-width="3"></path>
+      <path d="M1000,620 L1040,620 M1000,650 L1050,650 M1000,680 L1066,680" stroke="#9A948A" stroke-width="2"></path>
+      <path class="wet wet4 flow" d="M1034,592 C1040,630 1058,680 1092,712" fill="none" stroke="#5CC2FF" stroke-width="10" stroke-linecap="round"></path>
+      <path class="wet wet4" d="M1092,710 L1104,700" stroke="#1E88E5" stroke-width="12" stroke-linecap="round"></path>
+
+      <!-- MILLPOND -->
+      <path d="M1100,680 C1108,770 1250,772 1286,758 L1286,680 Z" fill="#6E5A3E" opacity=".22"></path>
+      <g clip-path="url(#cPond)"><g id="jPond"><rect x="1090" y="690" width="210" height="100" fill="url(#gW)"></rect><path class="flow slow" d="M1120,700 L1270,700" stroke="#D6F3FF" stroke-width="4"></path>
+        <g class="bob"><path d="M1150,694 c0,-10 18,-10 20,-2 l8,-6 l0,10 c-6,6 -26,8 -28,-2 Z" fill="#FFFFFF" stroke="#334" stroke-width="1.5"></path><circle cx="1173" cy="684" r="7" fill="#FFFFFF" stroke="#334" stroke-width="1.5"></circle><path d="M1179,684 l7,2 l-7,2 Z" fill="#F59E0B"></path><circle cx="1174" cy="682" r="1.6" fill="#223"></circle></g>
+        <g class="bob" style="animation-delay:-1.2s"><path d="M1215,696 c0,-9 16,-9 18,-2 l7,-5 l0,9 c-5,5 -23,7 -25,-2 Z" fill="#FDE68A" stroke="#334" stroke-width="1.5"></path><circle cx="1236" cy="687" r="6" fill="#FDE68A" stroke="#334" stroke-width="1.5"></circle><path d="M1241,687 l6,2 l-6,2 Z" fill="#F59E0B"></path></g>
+      </g></g>
+      <g class="sp sp5">
+        <rect x="1110" y="652" width="10" height="110" rx="3" fill="#fff" stroke="#0B3E7A" stroke-width="2"></rect>
+        <path d="M1110,670 L1122,670 M1110,690 L1126,690 M1110,710 L1122,710 M1110,730 L1126,730 M1110,750 L1122,750" stroke="#0B3E7A" stroke-width="2"></path>
+        <line x1="1300" y1="690" x2="1440" y2="690" stroke="#0B3E7A" stroke-width="3" stroke-dasharray="8 6"></line>
+        <line x1="1360" y1="838" x2="1440" y2="838" stroke="#0B3E7A" stroke-width="3" stroke-dasharray="8 6"></line>
+        <path d="M1436,698 L1436,830" stroke="#C0168F" stroke-width="5"></path>
+        <path d="M1426,708 L1436,692 L1446,708 M1426,820 L1436,836 L1446,820" fill="none" stroke="#C0168F" stroke-width="5" stroke-linejoin="round"></path>
+        <rect x="1452" y="744" width="84" height="38" rx="10" fill="#fff" stroke="#C0168F" stroke-width="3"></rect>
+        <text x="1494" y="771" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="24" fill="#C0168F">HEAD</text>
+      </g>
+
+      <!-- SLUICE GATE -->
+      <rect x="1286" y="650" width="30" height="120" fill="#B9B3A8" stroke="#6F6A62" stroke-width="3"></rect>
+      <path d="M1286,680 L1316,680 M1286,710 L1316,710 M1286,740 L1316,740" stroke="#8D887F" stroke-width="2"></path>
+      <rect class="wet wet6" x="1288" y="704" width="26" height="12" fill="#5CC2FF"></rect>
+      <rect x="1282" y="630" width="6" height="90" fill="#475569"></rect><rect x="1314" y="630" width="6" height="90" fill="#475569"></rect>
+      <g id="jGate"><rect x="1288" y="672" width="26" height="44" rx="3" fill="#A86B36" stroke="#6E4A2A" stroke-width="2"></rect><path d="M1288,686 L1314,686 M1288,700 L1314,700" stroke="#6E4A2A" stroke-width="2"></path><rect x="1299" y="612" width="4" height="60" fill="#475569"></rect></g>
+      <g transform="translate(1301,612)"><g id="jHand"><circle r="18" fill="none" stroke="#334155" stroke-width="5"></circle><path d="M-18,0 L18,0 M0,-18 L0,18" stroke="#334155" stroke-width="4"></path></g></g>
+
+      <!-- FLUME -->
+      <path d="M1340,712 L1340,760 M1380,712 L1380,800" stroke="#6E4A2A" stroke-width="6"></path>
+      <rect x="1316" y="700" width="92" height="12" fill="#A86B36" stroke="#6E4A2A" stroke-width="2"></rect>
+      <path class="wet wet6 flow" d="M1316,699 L1406,699" stroke="#5CC2FF" stroke-width="8" stroke-linecap="round"></path>
+      <path class="wet wet6" d="M1404,699 C1420,700 1432,708 1442,722" fill="none" stroke="#5CC2FF" stroke-width="9" stroke-linecap="round"></path>
+
+      <!-- TAILRACE -->
+      <rect x="1352" y="836" width="700" height="26" fill="#1E88E5" opacity=".35"></rect>
+      <rect class="wet wet6" x="1352" y="836" width="700" height="26" fill="#1E88E5"></rect>
+      <path class="wet wet6 flow" d="M1360,849 L1990,849" stroke="#BFEFFF" stroke-width="4"></path>
+
+      <!-- WATERWHEEL -->
+      <g id="jWheel" class="spin">
+        <circle cx="1420" cy="770" r="66" fill="none" stroke="#9A6A3E" stroke-width="10"></circle>
+        <circle cx="1420" cy="770" r="50" fill="none" stroke="#6E4A2A" stroke-width="5"></circle>
+        <path d="M1370,770 L1470,770 M1420,720 L1420,820 M1384.6,734.6 L1455.4,805.4 M1455.4,734.6 L1384.6,805.4" stroke="#9A6A3E" stroke-width="7"></path>
+        <path d="M1470,770 L1486,770 M1463.3,795 L1477.2,803 M1445,813.3 L1453,827.2 M1420,820 L1420,836 M1395,813.3 L1387,827.2 M1376.7,795 L1362.8,803 M1370,770 L1354,770 M1376.7,745 L1362.8,737 M1395,726.7 L1387,712.8 M1420,720 L1420,704 M1445,726.7 L1453,712.8 M1463.3,745 L1477.2,737" stroke="#6E4A2A" stroke-width="8" stroke-linecap="round"></path>
+        <circle cx="1420" cy="770" r="12" fill="#475569"></circle>
+      </g>
+      <g class="sp sp7" fill="#BFEFFF"><circle class="bubbleup" cx="1448" cy="736" r="6"></circle><circle class="bubbleup" cx="1462" cy="760" r="5" style="animation-delay:.5s"></circle><circle class="bubbleup" cx="1440" cy="840" r="6" style="animation-delay:1s"></circle></g>
+      <line x1="1432" y1="770" x2="1512" y2="770" stroke="#475569" stroke-width="9"></line>
+
+      <!-- MILLHOUSE -->
+      <rect x="1500" y="600" width="140" height="248" fill="#E8DCC4" stroke="#6F6A62" stroke-width="3"></rect>
+      <path d="M1486,604 L1570,520 L1654,604 Z" fill="#9C3D24" stroke="#6A2614" stroke-width="3"></path>
+      <path d="M1514,590 L1626,590 M1536,568 L1604,568 M1556,546 L1584,546" stroke="#6A2614" stroke-width="2"></path>
+      <rect x="1512" y="624" width="116" height="200" rx="8" fill="#FFF8EA" stroke="#0B3E7A" stroke-width="3" stroke-dasharray="10 6"></rect>
+      <g class="gearA spin"><circle cx="1530" cy="770" r="20" fill="#B7791F" stroke="#6E4A2A" stroke-width="3"></circle><circle cx="1530" cy="770" r="26" fill="none" stroke="#6E4A2A" stroke-width="6" stroke-dasharray="5 5"></circle></g>
+      <rect x="1566" y="650" width="8" height="140" fill="#475569"></rect>
+      <g class="gearB spin"><circle cx="1570" cy="760" r="13" fill="#94A3B8" stroke="#334155" stroke-width="3"></circle><circle cx="1570" cy="760" r="17" fill="none" stroke="#334155" stroke-width="5" stroke-dasharray="4 4"></circle></g>
+      <rect x="1534" y="670" width="76" height="12" rx="4" fill="#9CA3AF"></rect>
+      <g class="stoneR spin"><rect x="1534" y="656" width="76" height="12" rx="4" fill="#6B7280"></rect><rect x="1566" y="656" width="12" height="12" fill="#4B5563"></rect></g>
+      <path d="M1556,630 L1588,630 L1578,648 L1566,648 Z" fill="#A86B36"></path>
+      <g class="sp sp8" fill="#F5E6B8"><circle class="grain" cx="1572" cy="642" r="3"></circle><circle class="grain" cx="1568" cy="642" r="2.5" style="animation-delay:.4s"></circle><circle class="grain" cx="1575" cy="642" r="2.5" style="animation-delay:.8s"></circle></g>
+      <g class="wet wet8"><path d="M1606,686 C1616,700 1618,760 1616,790" stroke="#F8F1DE" stroke-width="6" fill="none" stroke-dasharray="4 6" class="flow"></path></g>
+      <path d="M1596,796 C1594,786 1630,786 1628,796 L1634,840 L1590,840 Z" fill="#F1E3BE" stroke="#9C8A64" stroke-width="2.5"></path>
+      <text x="1612" y="826" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="13" fill="#7A5B2A">FLOUR</text>
+
+      <!-- stage extras -->
+      <g class="sp sp1" fill="#fff">
+        <circle class="snow" cx="260" cy="120" r="5" style="animation-duration:5s"></circle><circle class="snow" cx="330" cy="90" r="4" style="animation-duration:6s;animation-delay:-2s"></circle>
+        <circle class="snow" cx="400" cy="110" r="5" style="animation-duration:5.5s;animation-delay:-1s"></circle><circle class="snow" cx="460" cy="130" r="4" style="animation-duration:6.5s;animation-delay:-3s"></circle>
+        <circle class="snow" cx="300" cy="80" r="3.5" style="animation-duration:4.8s;animation-delay:-4s"></circle><circle class="snow" cx="370" cy="70" r="4" style="animation-duration:5.8s;animation-delay:-.5s"></circle>
+      </g>
+      <g class="sp sp1">
+        <path d="M150,150 L150,330" stroke="#C0168F" stroke-width="5"></path><path d="M138,166 L150,146 L162,166" fill="none" stroke="#C0168F" stroke-width="5" stroke-linejoin="round"></path>
+        <rect x="70" y="340" width="160" height="40" rx="12" fill="#fff" stroke="#C0168F" stroke-width="3"></rect>
+        <text x="150" y="368" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#C0168F">ELEVATION</text>
+      </g>
+      <g class="sp sp2" fill="#1565C0">
+        <path d="M454,520 l26,8 l-20,14 Z"></path><path d="M552,520 l24,14 l-24,6 Z"></path><path d="M598,548 l18,20 l-24,-2 Z"></path>
+        <ellipse cx="660" cy="640" rx="14" ry="7" fill="#9CA3AF"></ellipse><ellipse cx="690" cy="652" rx="14" ry="7" fill="#9CA3AF"></ellipse><ellipse cx="720" cy="640" rx="14" ry="7" fill="#9CA3AF"></ellipse>
+        <rect x="560" y="604" width="150" height="34" rx="10" fill="#fff" stroke="#0B3E7A" stroke-width="3"></rect>
+        <text x="635" y="628" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="19" fill="#0B3E7A">CONFLUENCE</text>
+      </g>
+      <g class="sp sp3">
+        <g><path d="M0,0 c6,-8 14,-8 18,0 c-4,8 -12,8 -18,0 Z" fill="#F59E0B"><animateMotion dur="7s" repeatCount="indefinite" path="M640,600 C700,630 760,612 800,636 C830,654 846,640 866,630"></animateMotion></path></g>
+        <g><path d="M0,0 c6,-8 14,-8 18,0 c-4,8 -12,8 -18,0 Z" fill="#84CC16"><animateMotion dur="9s" begin="-4s" repeatCount="indefinite" path="M640,600 C700,630 760,612 800,636 C830,654 846,640 866,630"></animateMotion></path></g>
+        <g><path d="M0,0 c10,-10 26,-10 32,0 l10,-8 l0,16 l-10,-8 c-6,10 -22,10 -32,0 Z" fill="#F97316" stroke="#9A3412" stroke-width="1.5"><animateMotion dur="2.6s" repeatCount="indefinite" path="M720,632 Q745,560 770,630" rotate="auto"></animateMotion></path></g>
+        <rect x="690" y="560" width="10" height="0" fill="none"></rect>
+        <rect x="560" y="664" width="200" height="34" rx="10" fill="#fff" stroke="#0B3E7A" stroke-width="3"></rect>
+        <text x="660" y="688" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="19" fill="#0B3E7A">DOWNSTREAM →</text>
+      </g>
+      <g class="sp sp4">
+        <rect x="866" y="640" width="130" height="34" rx="10" fill="#fff" stroke="#0B3E7A" stroke-width="3"></rect>
+        <text x="931" y="664" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="19" fill="#0B3E7A">UPSTREAM</text>
+        <rect x="1060" y="606" width="150" height="34" rx="10" fill="#fff" stroke="#0B3E7A" stroke-width="3"></rect>
+        <text x="1135" y="630" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="19" fill="#0B3E7A">DOWNSTREAM</text>
+        <g fill="#fff"><circle class="bubbleup" cx="1094" cy="706" r="6"></circle><circle class="bubbleup" cx="1084" cy="700" r="5" style="animation-delay:.6s"></circle></g>
+      </g>
+      <g class="sp sp6" fill="#BFEFFF"><circle class="bubbleup" cx="1322" cy="700" r="6"></circle><circle class="bubbleup" cx="1330" cy="694" r="4" style="animation-delay:.4s"></circle></g>
+
+      <!-- highlights -->
+      <path class="hl hl1" d="M120,560 L220,380 L330,140 L410,290 L470,230 L560,380 L660,520 L700,600 L120,600 Z"></path>
+      <path class="hl hl2" d="M280,340 L540,380 L680,590 L600,640 L300,420 Z"></path>
+      <rect class="hl hl3" x="626" y="580" width="250" height="80" rx="30"></rect>
+      <rect class="hl hl4" x="846" y="576" width="262" height="168" rx="20"></rect>
+      <rect class="hl hl5" x="1090" y="668" width="200" height="104" rx="30"></rect>
+      <rect class="hl hl6" x="1266" y="586" width="66" height="190" rx="16"></rect>
+      <circle class="hl hl7" cx="1420" cy="770" r="86"></circle>
+      <rect class="hl hl8" x="1476" y="506" width="190" height="350" rx="16"></rect>
+
+      <!-- water trail + droplet -->
+      <path id="jPath" d="M300,360 C320,440 380,500 470,540 C540,570 600,590 640,600 C700,630 760,612 800,636 C830,654 846,640 866,630 L990,616 L1034,594 C1040,630 1058,680 1092,712 L1110,702 L1280,704 L1300,712 L1406,699 C1420,700 1432,708 1442,722 A62,62 0 0 1 1420,832 L1500,846 L1560,790" fill="none" stroke="none"></path>
+      <path id="jTrail" d="M300,360 C320,440 380,500 470,540 C540,570 600,590 640,600 C700,630 760,612 800,636 C830,654 846,640 866,630 L990,616 L1034,594 C1040,630 1058,680 1092,712 L1110,702 L1280,704 L1300,712 L1406,699 C1420,700 1432,708 1442,722 A62,62 0 0 1 1420,832 L1500,846 L1560,790" fill="none" stroke="#2fd2ff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity=".75" pointer-events="none"></path>
+
+      <!-- map Adam -->
+      <g id="mapAdam" style="transform:translate(420px,380px)"><g class="hop">
+        <ellipse cx="75" cy="148" rx="50" ry="9" fill="#0B3E7A" opacity=".18"></ellipse>
+        <image id="mapAdamImg" href="" x="0" y="0" width="150" height="150" preserveAspectRatio="xMidYMax meet"></image>
+        <g id="mapAdamFb" style="display:none"><circle cx="80" cy="90" r="62" fill="#1E88E5" stroke="#fff" stroke-width="6"></circle><text x="80" y="100" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="30" fill="#fff">ADAM</text></g>
+      </g></g>
+
+      <g id="jDrop" pointer-events="none" opacity="0">
+        <circle r="26" fill="#2fd2ff" opacity=".28"></circle>
+        <path d="M0,-20 C8,-8 13,0 13,7 A13,13 0 0 1 -13,7 C-13,0 -8,-8 0,-20 Z" fill="url(#gDrop)" stroke="#fff" stroke-width="3"></path>
+      </g>
+
+      <!-- stops -->
+      <g id="stops"></g>
+    </svg>
+  </div>
+
+  <div class="map-bubble" id="mapBubble" aria-live="polite"><span class="who">ADAM SAYS</span><span id="mapSay">Tap stop 1 and we'll start at the very top!</span></div>
+  <div class="map-tools">
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn go" type="button" id="replayBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg>Replay the whole journey</button>
+      <button class="btn small" type="button" id="overviewBtn">See the whole map</button>
+    </div>
+    <div class="soundbar" role="group" aria-label="Sound effects">
+      <button class="iconbtn sfx-mute" type="button" aria-pressed="false" aria-label="Mute sound effects"></button>
+      <span class="lbl">Sound effects</span>
+      <input class="sfx-vol" type="range" min="0" max="100" value="55" aria-label="Sound effects volume">
+    </div>
+  </div>
+
+  <nav class="stepper" id="stepper" aria-label="The eight adventures"></nav>
+</section>
+
+<!-- ======================= STATION ======================= -->
+<section id="station" aria-live="off" aria-labelledby="stTitle">
+  <article class="station" id="stCard">
+    <div class="confetti" id="stFx"></div>
+    <div class="splash" id="stSplash"></div>
+    <div class="st-band">
+      <div class="bign" id="stNum">1</div>
+      <div>
+        <div class="eyebrow" id="stEyebrow">ADVENTURE 1 OF 8</div>
+        <h2 id="stTitle">THE MOUNTAIN: WHERE WATER BEGINS</h2>
+      </div>
+    </div>
+
+    <div class="st-intro">
+      <div class="st-adam mascot-slot" id="stAdam" data-alt="Adam the Dam Beaver, your guide"></div>
+      <p class="bubble left" id="stSay"></p>
+    </div>
+
+    <!-- BEAVER READER -->
+    <div class="reader" id="reader" role="region" aria-label="Beaver text reader">
+      <div class="reader-top">
+        <div class="ava mascot-slot" data-alt=""></div>
+        <div>
+          <h3>Adam's Beaver Reader</h3>
+          <p>"Not in the mood to read? No problem! I'll read it to you!"</p>
+        </div>
+      </div>
+      <div class="seg" role="group" aria-label="What should Adam read?">
+        <button type="button" data-seg="lesson" aria-pressed="true">The Lesson</button>
+        <button type="button" data-seg="words" aria-pressed="false">Word Wall</button>
+        <button type="button" class="g" data-seg="gei" aria-pressed="false">GEI Discovery</button>
+      </div>
+      <div class="rctl">
+        <button class="btn play" type="button" id="rPlay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg>PLAY LESSON</button>
+        <button class="btn" type="button" id="rPause"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"></path></svg>PAUSE</button>
+        <button class="btn" type="button" id="rResume"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h3v14H5zM10 5v14l10-7z" fill="currentColor"></path></svg>RESUME</button>
+        <button class="btn" type="button" id="rStop"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"></rect></svg>STOP</button>
+        <button class="btn" type="button" id="rRepeat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z" fill="currentColor"></path></svg>REPEAT</button>
+      </div>
+      <div class="rprog">
+        <div class="rbar" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="rBar"><i id="rFill"></i></div>
+        <span class="rstat" id="rStat" aria-live="polite">Ready to read</span>
+      </div>
+      <div class="ropts">
+        <label>Speed <input type="range" id="rRate" min="0.6" max="1.4" step="0.1" value="0.9" aria-label="Reading speed"> <span id="rRateVal">0.9×</span></label>
+        <label>Voice <select id="rVoice" aria-label="Reading voice"><option value="">Default voice</option></select></label>
+      </div>
+      <p class="rmsg" id="rMsg"></p>
+    </div>
+
+    <div class="panels">
+      <div class="pane eng">
+        <span class="tagline">REAL-WORLD ENGINEERING</span>
+        <h3 id="engTitle">Look up!</h3>
+        <div id="engLesson"></div>
+        <div class="howit"><strong>How it works:</strong> <span id="engHow"></span></div>
+        <h4 style="font-size:22px;color:#0B3E7A;margin-top:6px">Word Wall</h4>
+        <div class="words" id="engWords"></div>
+      </div>
+      <div class="pane gei">
+        <span class="tagline">GEI DISCOVERY</span>
+        <h3 id="geiTitle"></h3>
+        <div id="geiBody"></div>
+      </div>
+    </div>
+
+    <div class="quiz" id="quiz">
+      <span class="tagline">ADAM'S QUESTION</span>
+      <h3 id="qText"></h3>
+      <div class="choices" id="qChoices"></div>
+      <div class="feedback" id="qFb" aria-live="polite"><div class="fa mascot-slot" data-alt=""></div><p id="qFbText"></p></div>
+    </div>
+
+    <div class="st-nav">
+      <button class="btn" type="button" id="prevBtn">← Back</button>
+      <button class="btn go" type="button" id="nextBtn">Next adventure →</button>
+    </div>
+  </article>
+</section>
+
+<!-- ======================= LAB ======================= -->
+<section id="lab" aria-labelledby="labTitle">
+  <div class="sec-head"><div><span class="kicker">BONUS ZONE</span><h2>Experiment Time!</h2><p>Use what you learned to run your own water system.</p></div></div>
+  <div class="lab">
+    <div class="confetti" id="labFx"></div>
+    <div class="lab-head">
+      <div class="ava mascot-slot" data-alt="Adam the Dam Beaver in his lab"></div>
+      <div>
+        <h2 id="labTitle">ADAM'S DISCOVERY LAB</h2>
+        <p>"Can you build a water system? Fill the pond, open the gate, and make that wheel SPIN!"</p>
+      </div>
+    </div>
+    <div class="lab-body">
+      <div>
+        <div class="lab-svgbox">
+          <svg id="L" viewBox="0 0 800 470" role="img" aria-label="Lab water system: river, millpond, sluice gate, waterwheel and mill">
+            <defs>
+              <clipPath id="cLab"><path d="M60,170 L60,410 C60,425 70,430 85,430 L420,430 L420,170 Z"></path></clipPath>
+              <linearGradient id="gLW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5CC2FF"></stop><stop offset="1" stop-color="#1565C0"></stop></linearGradient>
+            </defs>
+            <rect width="800" height="470" fill="#E9F8FF"></rect>
+            <path d="M0,450 L800,450 L800,470 L0,470 Z" fill="#6CC062"></path>
+            <!-- river in -->
+            <path d="M0,120 C40,118 70,130 90,160" fill="none" stroke="#1E88E5" stroke-width="22" stroke-linecap="round" id="LriverBg"></path>
+            <path id="LriverFlow" class="flow" d="M0,120 C40,118 70,130 90,160" fill="none" stroke="#BFEFFF" stroke-width="4"></path>
+            <!-- pond basin -->
+            <path d="M48,160 L48,412 C48,432 62,442 85,442 L432,442 L432,160" fill="none" stroke="#8D887F" stroke-width="12" stroke-linejoin="round"></path>
+            <g clip-path="url(#cLab)"><rect id="Lwater" x="50" y="300" width="380" height="140" fill="url(#gLW)"></rect><line id="Lsurf" x1="50" y1="300" x2="430" y2="300" stroke="#D6F3FF" stroke-width="4"></line></g>
+            <!-- level ruler -->
+            <rect x="70" y="180" width="14" height="250" rx="4" fill="#fff" stroke="#0B3E7A" stroke-width="2"></rect>
+            <path d="M70,205 L90,205 M70,255 L84,255 M70,305 L90,305 M70,355 L84,355 M70,405 L90,405" stroke="#0B3E7A" stroke-width="2"></path>
+            <!-- spillway overflow -->
+            <path id="Lspill" d="M432,168 C450,170 462,200 468,240" fill="none" stroke="#5CC2FF" stroke-width="10" stroke-linecap="round" opacity="0" class="flow"></path>
+            <!-- sluice wall + gate -->
+            <rect x="432" y="150" width="34" height="300" fill="#B9B3A8" stroke="#6F6A62" stroke-width="3"></rect>
+            <rect x="428" y="120" width="6" height="320" fill="#475569"></rect><rect x="464" y="120" width="6" height="320" fill="#475569"></rect>
+            <g id="Lgate"><rect x="434" y="330" width="30" height="110" rx="3" fill="#A86B36" stroke="#6E4A2A" stroke-width="2"></rect><path d="M434,360 L464,360 M434,390 L464,390 M434,420 L464,420" stroke="#6E4A2A" stroke-width="2"></path><rect x="447" y="120" width="5" height="210" fill="#475569"></rect></g>
+            <g transform="translate(449,112)"><g id="Lhand"><circle r="22" fill="none" stroke="#334155" stroke-width="6"></circle><path d="M-22,0 L22,0 M0,-22 L0,22" stroke="#334155" stroke-width="5"></path></g></g>
+            <!-- channel to wheel -->
+            <rect x="466" y="430" width="334" height="20" fill="#8D887F"></rect>
+            <rect id="Ljet" x="466" y="408" width="334" height="22" fill="#5CC2FF" opacity="0"></rect>
+            <path id="LjetFlow" class="flow" d="M470,419 L790,419" stroke="#E0F7FF" stroke-width="4" opacity="0"></path>
+            <!-- head arrow -->
+            <g id="Lhead"><line id="LheadLine" x1="200" y1="300" x2="200" y2="418" stroke="#C0168F" stroke-width="4"></line><path id="LheadTop" d="M192,312 L200,300 L208,312" fill="none" stroke="#C0168F" stroke-width="4"></path><path d="M192,406 L200,418 L208,406" fill="none" stroke="#C0168F" stroke-width="4"></path><rect x="210" y="342" width="74" height="30" rx="8" fill="#fff" stroke="#C0168F" stroke-width="3"></rect><text x="247" y="364" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="18" fill="#C0168F">HEAD</text></g>
+            <!-- wheel -->
+            <g id="Lwheel">
+              <circle cx="600" cy="330" r="96" fill="none" stroke="#9A6A3E" stroke-width="12"></circle>
+              <circle cx="600" cy="330" r="74" fill="none" stroke="#6E4A2A" stroke-width="6"></circle>
+              <path d="M526,330 L674,330 M600,256 L600,404 M547.7,277.7 L652.3,382.3 M652.3,277.7 L547.7,382.3" stroke="#9A6A3E" stroke-width="9"></path>
+              <path d="M696,330 L716,330 M683.1,378 L700.4,388 M648,413.1 L658,430.4 M600,426 L600,446 M552,413.1 L542,430.4 M516.9,378 L499.6,388 M504,330 L484,330 M516.9,282 L499.6,272 M552,246.9 L542,229.6 M600,234 L600,214 M648,246.9 L658,229.6 M683.1,282 L700.4,272" stroke="#6E4A2A" stroke-width="12" stroke-linecap="round"></path>
+              <circle cx="600" cy="330" r="16" fill="#475569"></circle>
+            </g>
+            <line x1="616" y1="330" x2="720" y2="330" stroke="#475569" stroke-width="10"></line>
+            <!-- mill -->
+            <rect x="700" y="200" width="100" height="250" fill="#E8DCC4" stroke="#6F6A62" stroke-width="3"></rect>
+            <path d="M690,204 L750,150 L810,204 Z" fill="#9C3D24"></path>
+            <g id="Lgear"><circle cx="740" cy="330" r="24" fill="#B7791F" stroke="#6E4A2A" stroke-width="3"></circle><circle cx="740" cy="330" r="30" fill="none" stroke="#6E4A2A" stroke-width="7" stroke-dasharray="6 6"></circle></g>
+            <path d="M752,404 C750,392 790,392 788,404 L794,446 L746,446 Z" fill="#F1E3BE" stroke="#9C8A64" stroke-width="2.5"></path>
+            <rect id="LflourFill" x="750" y="446" width="40" height="0" fill="#FFFFFF" opacity=".9"></rect>
+            <!-- droplet -->
+            <g id="Ldrop" opacity="0"><circle r="20" fill="#2fd2ff" opacity=".3"></circle><path d="M0,-16 C6,-6 10,0 10,6 A10,10 0 0 1 -10,6 C-10,0 -6,-6 0,-16 Z" fill="#7FE3FF" stroke="#fff" stroke-width="3"></path></g>
+            <!-- labels -->
+            <g font-family="Fredoka, sans-serif" font-weight="700" font-size="20" fill="#0B3E7A">
+              <text x="110" y="148">MILLPOND</text><text x="480" y="118">SLUICE GATE</text><text x="536" y="204">WATERWHEEL</text><text x="728" y="248" font-size="18">MILL</text>
+            </g>
+          </svg>
+        </div>
+        <p class="bubble lab-say" id="labSay" aria-live="polite">Start by letting the river fill the pond. Slide <b>River flow</b> up!</p>
+        <div class="gauges" aria-live="off">
+          <div><b id="gLevel">0%</b><span>Pond level</span></div>
+          <div><b id="gHead">0.0 m</b><span>Head (water push)</span></div>
+          <div><b id="gFlow">0</b><span>Flow through gate</span></div>
+          <div><b id="gRpm">0</b><span>Wheel spins / min</span></div>
+          <div><b id="gFlour">0</b><span>Bags of flour</span></div>
+        </div>
+      </div>
+      <div class="ctrls">
+        <div class="ctrl">
+          <label for="inflow"><span>River flow into pond</span><span id="inflowVal">0%</span></label>
+          <input type="range" id="inflow" min="0" max="100" value="0">
+          <p class="hint">More flow fills the millpond faster.</p>
+        </div>
+        <div class="ctrl">
+          <label for="gate"><span>Sluice gate opening</span><span id="gateVal">Closed</span></label>
+          <input type="range" id="gate" min="0" max="100" value="0">
+          <p class="hint">Raise the gate to let water out to the wheel.</p>
+        </div>
+        <div class="lab-btns">
+          <button class="btn go small" type="button" id="labDrop">Send a water droplet</button>
+          <button class="btn small" type="button" id="labEmpty">Empty the pond</button>
+          <button class="btn small" type="button" id="labReset">Reset the lab</button>
+        </div>
+        <div class="ctrl">
+          <label><span>Adam's Lab Missions</span><span id="mCount">0 / 6</span></label>
+          <ul class="missions" id="missions"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CHALLENGE ======================= -->
+<section id="challenge" aria-labelledby="chTitle">
+  <div class="sec-head"><div><span class="kicker">THE FINAL CHALLENGE</span><h2 id="chTitle">Graduation Challenge</h2><p>Eight questions. 10 points each. Earn your GEI Junior Water Explorer certificate!</p></div></div>
+  <div class="challenge" id="chBox">
+    <div class="confetti" id="chFx"></div>
+    <div id="chStage"></div>
+  </div>
+</section>
+
+<footer>
+  <p style="margin:0 0 8px"><b style="color:#1565C0">Blue sections</b> teach real-world engineering — how mountains, rivers, dams, ponds, gates, wheels, and mills actually work. <b style="color:#6B2FBF">Purple sections</b> share GEI Discovery: Wilbert Bouie Jr.'s proposed connections between hydraulic engineering and Genesis 1–6. GEI ideas are an interpretation to investigate, not established Hebrew translations or engineering history.</p>
+  <p style="margin:0">Scripture quotations are from the King James Version. Want to go deeper? Explore the <a href="https://www.yalltoo.com/gei-discovery-guide-" target="_top">Genesis Engineered Discovery Guide</a>.</p>
+</footer>
+</main>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   CONFIG
+   ============================================================ */
+var MASCOT_SRC = "https://assets.zyrosite.com/YZ9jg46Bljs5wOZR/yall-too-beaver-rhhiVplt1GMykxV8.png";
+var STORE_KEY = "gei-water-adventure-v1";
+var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+var STAGES = [
+{ n:1, color:"#4F46E5", short:"Mountain", title:"THE MOUNTAIN: WHERE WATER BEGINS",
+  say:"Look up — WAY up! This is where every drop starts its trip. I call it the water's launch pad!",
+  mapSay:"Snow is melting and springs are bubbling. Our drop starts right here!",
+  engTitle:"Look up!",
+  lesson:["Look up! This is a mountain.","Rain and melting snow collect here.","Some water also comes out of underground springs.","Because the mountain is high, water can travel downhill."],
+  how:"The higher water starts, the more stored energy it has. It's like holding a ball at the top of a slide — let go, and down it goes!",
+  words:[["Mountain","High land."],["Elevation","How high something is."],["Spring","Water coming out of the ground."],["Source","Where something begins."]],
+  geiTitle:"The Highest Source",
+  gei:["In GEI, the mountain is used as a picture of the Most High — the highest Source in the proposed interpretation.","Wilbert's interpretation suggests that, just like every drop starts up high, everything in the water system depends on its Source."],
+  verses:[["In the beginning God created the heaven and the earth.","Genesis 1:1"]],
+  wonder:"Can you find a connection? Why might someone use the highest mountain as a picture of where everything begins?",
+  q:{text:"What is the highest place in our water adventure?", choices:["The millpond","The mountain","The river"], a:1,
+     hint:"Look up, up, UP! Where does the snow sit?",
+     explain:"The mountain is the highest place. Its height gives water the energy to travel all the way downhill."}},
+
+{ n:2, color:"#0891B2", short:"Tributaries", title:"THE TRIBUTARIES: LITTLE STREAMS JOIN TOGETHER",
+  say:"Hop, hop, HOP! I'm jumping across the stepping stones. Watch the little streams team up!",
+  mapSay:"Three little streams are racing downhill… and meeting up at the confluence!",
+  engTitle:"Little streams, big teamwork",
+  lesson:["Look at all those little streams!","Each one carries water downhill.","When little streams join together, they can become a much bigger river."],
+  how:"Every stream in a river basin flows toward the same river. That's why rain far up on the mountain can end up miles away!",
+  words:[["Tributary","A smaller stream that flows into a larger stream or river."],["Confluence","The place where streams meet."],["River basin","The area where water drains into connected streams and rivers."]],
+  geiTitle:"Many Waters, One System",
+  gei:["GEI explores the idea of many moving waters becoming one connected system.","Let's investigate the words! Genesis 1:2 describes the Spirit of God moving upon the face of the waters. GEI explores moving water as a picture to think about."],
+  verses:[["And the Spirit of God moved upon the face of the waters.","Genesis 1:2"],["And a river went out of Eden to water the garden; and from thence it was parted, and became into four heads.","Genesis 2:10"]],
+  wonder:"What do you think? Genesis 2:10 talks about one river and four heads. How is that like our streams — but backwards?",
+  q:{text:"What do we call smaller streams that join a river?", choices:["Spillways","Millstones","Tributaries"], a:2,
+     hint:"It starts with “tri” — and these little streams love to team up!",
+     explain:"Tributaries are smaller streams that flow into a bigger stream or river."}},
+
+{ n:3, color:"#2563EB", short:"River", title:"THE RIVER: WATER ON THE MOVE",
+  say:"Wheee! I'm riding safely next to my log buddy. Keep your eyes peeled for fish!",
+  mapSay:"Leaves float by, a fish jumps — and our drop rides the current toward the dam!",
+  engTitle:"Water on the move",
+  lesson:["Now our little streams have joined together!","Meet the river.","A river carries water across the land.","Water usually moves from higher places to lower places."],
+  how:"A river is always on the move. Fast water can carry sand, rocks, and even logs — that's why people build ways to control it.",
+  words:[["River","A large natural flowing body of water."],["Current","Moving water."],["Downstream","The direction water travels."],["Upstream","The direction toward the water's source."]],
+  geiTitle:"The Deep",
+  gei:["GEI investigates how the words darkness and deep might be understood through the picture of large bodies of water.","This is an interpretation, not a scientific definition of the Bible."],
+  verses:[["And the earth was without form, and void; and darkness was upon the face of the deep.","Genesis 1:2"]],
+  wonder:"What do you think “the deep” could mean? Talk about it with a friend or a grown-up.",
+  q:{text:"Which direction does river water usually travel?", choices:["Downstream, from higher places to lower places","Upstream, back toward the mountain","Straight up into the clouds"], a:0,
+     hint:"Think about a slide. Which way do you go?",
+     explain:"River water usually flows downstream — from higher places to lower places."}},
+
+{ n:4, color:"#D97706", short:"Dam", title:"THE DAM: HOLDING BACK WATER",
+  say:"THIS is my favorite stop! I'm a beaver — building dams is kind of my thing. But this one is HUGE!",
+  mapSay:"Look! Water rises behind the dam, and extra water slides down the spillway!",
+  engTitle:"A wall that holds back water",
+  lesson:["A dam is a strong wall built across a river.","It holds back water and can create a large storage area called a reservoir.","Dams can help people manage water, control floods, and sometimes make electricity."],
+  how:"A dam's foundation sits on strong rock so the water can't push it over. The spillway is like a safety slide for extra water, so the dam doesn't overflow.",
+  words:[["Dam","A structure that holds back water."],["Reservoir","A large stored supply of water."],["Foundation","The strong base supporting a structure."],["Spillway","A passage that safely releases extra water."],["Upstream","The side where water collects."],["Downstream","The side water travels toward after passing the dam."]],
+  geiTitle:"A Dividing Structure",
+  gei:["Here is one of GEI's central ideas: the firmament may be interpreted as a dividing structure.","GEI compares this idea with how a dam separates water into different areas."],
+  dam:true,
+  verses:[["And God said, Let there be a firmament in the midst of the waters, and let it divide the waters from the waters.","Genesis 1:6"],["And God called the firmament Heaven.","Genesis 1:8"]],
+  wonder:"Let's investigate the words: look closely at my name — A-DAM. GEI notices the word “dam” hiding inside “Adam.” That's a wordplay idea to explore, not a dictionary meaning. Can you spot it?",
+  q:{text:"What does a dam do?", choices:["Grinds grain into flour","Holds back water","Makes it snow"], a:1,
+     hint:"It's a beaver's favorite build — a strong wall across a river…",
+     explain:"A dam holds back water and can create a reservoir for storing it."}},
+
+{ n:5, color:"#059669", short:"Millpond", title:"THE MILLPOND: A PLACE TO STORE WATER",
+  say:"Shh… the ducks are napping. Let's measure how high the water is!",
+  mapSay:"The pond fills up. See the HEAD arrow? That height difference is water power!",
+  engTitle:"Water, ready when you need it",
+  lesson:["A millpond is a pond that stores water for a water-powered mill.","It helps keep water ready for when the mill needs it."],
+  how:"The higher the water sits above where it leaves, the more push it has. That height difference is called the head. More head means more power!",
+  words:[["Millpond","A pond that stores water for a mill."],["Intake","Where water enters."],["Water level","How high the water sits."],["Head","The difference in height between stored water and where it leaves."]],
+  geiTitle:"Gathered Into One Place",
+  gei:["GEI explores Genesis 1:9–10 and the gathering of waters into one place, comparing that language with the engineering idea of managed water storage.","Let's investigate the words: in verse 10, the waters are called Seas, and God saw that it was good. GEI notices that “sea” and “saw” sound alike — a wordplay idea to explore, not a translation."],
+  verses:[["And God said, Let the waters under the heaven be gathered together unto one place, and let the dry land appear: and it was so.","Genesis 1:9"],["And God called the dry land Earth; and the gathering together of the waters called he Seas: and God saw that it was good.","Genesis 1:10"]],
+  wonder:"Can you find a connection? Why would an engineer want water gathered in one place before using it?",
+  q:{text:"What is a millpond used for?", choices:["Parking boats","Growing corn","Storing water for a mill"], a:2,
+     hint:"It's a pond that keeps water ready for…?",
+     explain:"A millpond stores water so it's ready whenever the mill needs it."}},
+
+{ n:6, color:"#DB2777", short:"Sluice Gate", title:"THE SLUICE GATE: THE WATER DOOR",
+  say:"Stand back! I'm turning the giant handwheel… here comes the WATER!",
+  mapSay:"The gate rises and — SPLASH — water rushes out toward the wheel!",
+  engTitle:"A giant door for water",
+  lesson:["A sluice gate is like a giant door for water!","When it is closed, water is held back.","When it opens, water can flow through.","People can control how much water gets released."],
+  how:"Open the gate a little, and a little water flows. Open it a lot, and a lot of water rushes out! Deciding how much is called flow control.",
+  words:[["Sluice gate","A movable gate controlling water."],["Inlet","Where water comes in."],["Outlet","Where water goes out."],["Flow control","Deciding how much water passes through."]],
+  geiTitle:"“And God Said…”",
+  gei:["GEI explores the phrase “And God said” as a possible picture of a command that initiates an action.","It also investigates the word “light” through its proposed water-release wordplay: light… lite… liter — and a liter is a way to measure water!","This is GEI's proposed figurative interpretation — a picture to think about, not a scientific claim."],
+  verses:[["And God said, Let there be light: and there was light.","Genesis 1:3"]],
+  wonder:"What do you think? Nothing downstream changes until the gate opens. Why might someone compare that to a spoken command?",
+  q:{text:"What happens when a sluice gate opens?", choices:["The water freezes","Water flows through","The mountain gets taller"], a:1,
+     hint:"Remember — it's a door for water!",
+     explain:"When a sluice gate opens, water flows through. How far it opens controls how much water passes."}},
+
+{ n:7, color:"#B45309", short:"Waterwheel", title:"THE WATERWHEEL: MAKING WATER DO WORK",
+  say:"Round and round and round! I could watch this wheel all day. Whoa… I'm getting dizzy!",
+  mapSay:"Water fills the buckets, the wheel turns, and the axle spins the gears inside!",
+  engTitle:"Making water do work",
+  lesson:["Look at that giant wheel!","When moving water pushes against its blades or buckets, the wheel turns.","The turning wheel can power machines."],
+  how:"Water is heavy! As the buckets fill, the water's weight pulls the wheel around. The spinning axle carries that motion into the mill.",
+  words:[["Waterwheel","A wheel powered by moving water."],["Paddle","A part that catches moving water."],["Axle","The rod running through the wheel."],["Rotation","Turning around."],["Mechanical energy","Energy used to move machines."]],
+  geiTitle:"Cycles That Repeat",
+  gei:["GEI explores the repeated evening-and-morning language in Genesis as a possible way to discuss cycles and recurring movement.","A waterwheel repeats its turn again and again. GEI invites you to compare those cycles."],
+  verses:[["And the evening and the morning were the first day.","Genesis 1:5"]],
+  wonder:"Let's investigate the words! Count how many times Genesis chapter 1 says “the evening and the morning.”",
+  reveal:"Answer: 6 times — in verses 5, 8, 13, 19, 23, and 31.",
+  q:{text:"What makes a waterwheel turn?", choices:["Magnets inside the mill","Moving water pushing or filling its buckets","Wind from flapping birds"], a:1,
+     hint:"Watch where the water from the gate lands!",
+     explain:"Moving water pushes against the paddles or fills the buckets, and that makes the wheel turn."}},
+
+{ n:8, color:"#7C3AED", short:"Millhouse", title:"THE MILLHOUSE: TURNING POWER INTO PRODUCTS",
+  say:"Welcome to the mill! Do you smell that? Fresh flour! Somebody make me a muffin!",
+  mapSay:"Gears spin, millstones grind, and flour fills the sack. The drop's job is done!",
+  engTitle:"From water power to flour",
+  lesson:["Welcome to the mill!","The waterwheel turns gears and shafts inside the building.","These machines can turn millstones.","The millstones grind grain into flour.","That flour can be used to make bread!"],
+  how:"Gears are toothed wheels that pass turning motion along — and can change its speed and direction. Shafts carry the power up to the millstones.",
+  words:[["Millhouse","A building containing mill machinery."],["Gears","Toothed wheels that transfer movement."],["Shaft","A rotating rod that transfers power."],["Millstones","Stones used to grind grain."],["Flour","Ground grain used in food."]],
+  geiTitle:"Receive, Manage, Use",
+  gei:["GEI explores the connection between receiving, managing, and using resources.","Students can investigate Genesis 1:28 and Genesis 2:15 alongside this idea."],
+  verses:[["And God blessed them, and God said unto them, Be fruitful, and multiply, and replenish the earth, and subdue it: and have dominion …","Genesis 1:28"],["And the LORD God took the man, and put him into the garden of Eden to dress it and to keep it.","Genesis 2:15"]],
+  wonder:"What do you think it means to “dress” and “keep” a garden? How is that like taking care of a mill?",
+  q:{text:"What can a mill make from grain?", choices:["Flour","Snow","Fish"], a:0,
+     hint:"It's soft and white, and you need it to bake bread!",
+     explain:"Millstones grind grain into flour — and flour can be baked into bread!"}}
+];
+
+/* map geometry: stop badge, adam position (translate), focus center & width, droplet anchor */
+var GEO = {
+ 1:{stop:[250,250], adam:[110,420], focus:[330,400,900], anchor:[300,360]},
+ 2:{stop:[600,470], adam:[680,410], focus:[520,480,820], anchor:[600,588]},
+ 3:{stop:[880,560], adam:[680,450], focus:[770,600,760], anchor:[820,646]},
+ 4:{stop:[1040,540],adam:[850,400], focus:[990,620,740], anchor:[1070,686]},
+ 5:{stop:[1200,650],adam:[1120,460],focus:[1200,680,720], anchor:[1196,703]},
+ 6:{stop:[1360,600],adam:[1120,470],focus:[1320,680,720], anchor:[1300,712]},
+ 7:{stop:[1420,660],adam:[1470,560],focus:[1430,720,720], anchor:[1460,760]},
+ 8:{stop:[1570,470],adam:[1340,540],focus:[1480,680,760], anchor:[1560,790]}
+};
+
+var CHEERS = ["WOO-HOO! You got it!","Dam-tastic! That's right!","Splash-tacular! You're a natural!","YES! Give me a high-paw!","You're a true water explorer!"];
+var HINTS = ["Ooh, so close! Here's a hint:","Good try! Let's think together:","No worries — mistakes help us learn! Hint:"];
+
+var FINAL = [
+ {q:"Where does our water adventure begin?", c:["At the millhouse","At the mountain","At the sluice gate"], a:1, e:"The adventure begins at the mountain — the highest place, where rain, snow, and springs start the water's trip."},
+ {q:"What is a confluence?", c:["The place where streams meet","A kind of fish","The top of a mountain"], a:0, e:"A confluence is where streams meet and join together."},
+ {q:"What is a river's current?", c:["The river's color","Moving water","The mud on the bottom"], a:1, e:"The current is the moving water in a river."},
+ {q:"What is a reservoir?", c:["A large stored supply of water","A tall mountain","A spinning gear"], a:0, e:"A reservoir is a large stored supply of water, often made by a dam."},
+ {q:"In a millpond, what is the “head”?", c:["The front door of the mill","A beaver's hat","The difference in height between stored water and where it leaves"], a:2, e:"The head is the height difference between the stored water and where it leaves. More head means more power!"},
+ {q:"What does a sluice gate control?", c:["How much water flows through","How fast birds fly","What the weather will be"], a:0, e:"A sluice gate controls how much water flows through — that's flow control."},
+ {q:"What kind of energy does a turning waterwheel give to machines?", c:["Sleepy energy","Sound energy","Mechanical energy"], a:2, e:"A turning waterwheel gives mechanical energy — energy used to move machines."},
+ {q:"In GEI's D.A.M. teaching framework, what do the letters stand for?", c:["Divide, Assign, Manage","Drip, Add, Mix","Dig, Avoid, Melt"], a:0, e:"GEI's D.A.M. framework stands for Divide, Assign, Manage."}
+];
+
+var MISSIONS = [
+ {id:"fill", t:"Fill the millpond to at least 80%."},
+ {id:"spin", t:"Open the sluice gate and make the wheel spin."},
+ {id:"full", t:"Make the wheel spin at FULL speed (20+ spins per minute)."},
+ {id:"flour",t:"Grind 3 bags of flour."},
+ {id:"spill",t:"Fill the pond so full the spillway overflows."},
+ {id:"stop", t:"Close the gate and watch the wheel stop."}
+];
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+var ICON_SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" fill="currentColor"/></svg>';
+var ICON_MUTE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
+var ICON_CHECK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4 10-10" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+var store = {done:{}, lab:{}, best:null, name:""};
+try{ var raw = localStorage.getItem(STORE_KEY); if(raw){ var s=JSON.parse(raw); if(s&&typeof s==="object"){ store.done=s.done||{}; store.lab=s.lab||{}; store.best=s.best||null; store.name=s.name||""; } } }catch(_){}
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(store)); }catch(_){} }
+
+/* ============================================================
+   MASCOT (real image, with branded fallback if it can't load)
+   ============================================================ */
+var mascotOK = true;
+function fillMascots(){
+  $$(".mascot-slot").forEach(function(slot){
+    if (slot.querySelector(".mascot")) return;
+    var alt = slot.getAttribute("data-alt") || "";
+    var img = document.createElement("img");
+    img.className="mascot"; img.src=MASCOT_SRC; img.alt=alt; img.decoding="async";
+    if(!alt){ img.setAttribute("aria-hidden","true"); img.alt=""; }
+    img.addEventListener("error", function(){ slot.classList.add("no-mascot"); mascotFailed(); });
+    var fb = document.createElement("div");
+    fb.className="mascot-fallback"; fb.setAttribute("aria-hidden","true");
+    fb.innerHTML="<div><b>ADAM</b><span>the Dam Beaver</span></div>";
+    slot.appendChild(img); slot.appendChild(fb);
+  });
+}
+function mascotFailed(){
+  if(!mascotOK) return; mascotOK=false;
+  $$(".mascot-slot").forEach(function(s){ s.classList.add("no-mascot"); });
+  $("#mapAdamImg").style.display="none"; $("#mapAdamFb").style.display="";
+}
+fillMascots();
+var mapImg = $("#mapAdamImg");
+mapImg.setAttribute("href", MASCOT_SRC);
+try{ mapImg.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",MASCOT_SRC); }catch(_){}
+mapImg.addEventListener("error", mascotFailed);
+var probe = new Image(); probe.onerror = mascotFailed; probe.src = MASCOT_SRC;
+
+/* ============================================================
+   SOUND EFFECTS (Web Audio) — independent from the reader
+   ============================================================ */
+var SFX = {ctx:null, vol:0.55, muted:false};
+function actx(){
+  if(!SFX.ctx){ var C = window.AudioContext||window.webkitAudioContext; if(!C) return null; try{ SFX.ctx = new C(); }catch(_){ return null; } }
+  if(SFX.ctx.state==="suspended"){ try{ SFX.ctx.resume(); }catch(_){} }
+  return SFX.ctx;
+}
+function tone(ctx,t,freq,dur,type,g,slideTo){
+  var o=ctx.createOscillator(), gn=ctx.createGain();
+  o.type=type||"sine"; o.frequency.setValueAtTime(freq,t);
+  if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo,t+dur);
+  gn.gain.setValueAtTime(0.0001,t); gn.gain.exponentialRampToValueAtTime(g*SFX.vol+0.0001,t+0.02); gn.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(gn); gn.connect(ctx.destination); o.start(t); o.stop(t+dur+0.05);
+}
+function noise(ctx,t,dur,g,freq){
+  var len=Math.floor(ctx.sampleRate*dur), b=ctx.createBuffer(1,len,ctx.sampleRate), d=b.getChannelData(0);
+  for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*(1-i/len);
+  var s=ctx.createBufferSource(); s.buffer=b;
+  var f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(freq||1800,t); f.frequency.exponentialRampToValueAtTime(300,t+dur);
+  var gn=ctx.createGain(); gn.gain.setValueAtTime(g*SFX.vol,t); gn.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  s.connect(f); f.connect(gn); gn.connect(ctx.destination); s.start(t);
+}
+function sfx(kind){
+  if(SFX.muted || SFX.vol<=0.01) return;
+  if(Reader.busy()) return; /* never compete with the reading voice */
+  var ctx=actx(); if(!ctx) return; var t=ctx.currentTime+0.01;
+  switch(kind){
+    case "drop": tone(ctx,t,900,0.18,"sine",0.35,380); tone(ctx,t+0.08,1300,0.12,"sine",0.18,700); break;
+    case "splash": noise(ctx,t,0.55,0.45,2400); tone(ctx,t,420,0.25,"sine",0.12,160); break;
+    case "pop": tone(ctx,t,620,0.09,"triangle",0.3,880); break;
+    case "good": [523,659,784,1047].forEach(function(f,i){ tone(ctx,t+i*0.09,f,0.22,"triangle",0.32); }); break;
+    case "hint": tone(ctx,t,392,0.18,"sine",0.25,330); tone(ctx,t+0.16,349,0.24,"sine",0.2,294); break;
+    case "whoosh": noise(ctx,t,0.4,0.25,900); break;
+    case "fanfare": [392,523,659,784,659,1047].forEach(function(f,i){ tone(ctx,t+i*0.12,f,0.3,"triangle",0.3); }); break;
+    case "creak": tone(ctx,t,140,0.35,"sawtooth",0.08,90); break;
+  }
+}
+function syncSoundUI(){
+  $$(".sfx-mute").forEach(function(b){ b.setAttribute("aria-pressed", SFX.muted?"true":"false"); b.setAttribute("aria-label", SFX.muted?"Turn sound effects on":"Mute sound effects"); b.innerHTML = SFX.muted?ICON_MUTE:ICON_SPK; });
+  $$(".sfx-vol").forEach(function(r){ r.value = Math.round(SFX.vol*100); });
+}
+$$(".sfx-mute").forEach(function(b){ b.addEventListener("click", function(){ SFX.muted=!SFX.muted; syncSoundUI(); if(!SFX.muted) sfx("pop"); }); });
+$$(".sfx-vol").forEach(function(r){ r.addEventListener("input", function(){ SFX.vol=r.value/100; if(SFX.vol>0.01) SFX.muted=false; syncSoundUI(); }); r.addEventListener("change", function(){ sfx("pop"); }); });
+syncSoundUI();
+
+/* ============================================================
+   BEAVER READER (speechSynthesis) — sentence by sentence
+   ============================================================ */
+var Reader = (function(){
+  var synth = ("speechSynthesis" in window) ? window.speechSynthesis : null;
+  var unlocked=false, items=[], idx=0, state="idle", token=0, rate=0.9, voice=null, voices=[], onDone=null;
+  var els = {play:$("#rPlay"),pause:$("#rPause"),resume:$("#rResume"),stop:$("#rStop"),repeat:$("#rRepeat"),fill:$("#rFill"),bar:$("#rBar"),stat:$("#rStat"),msg:$("#rMsg"),voice:$("#rVoice"),rate:$("#rRate"),rateVal:$("#rRateVal")};
+  function clearHL(){ $$(".speaking").forEach(function(e){ e.classList.remove("speaking"); }); }
+  function ui(){
+    var n=items.length;
+    els.pause.disabled = state!=="playing";
+    els.resume.disabled = state!=="paused";
+    els.stop.disabled = state==="idle";
+    els.repeat.disabled = !n;
+    els.play.disabled = !synth || !n;
+    var pct = n ? Math.round((state==="idle"&&idx>=n ? n : idx)/n*100) : 0;
+    els.fill.style.width = pct+"%"; els.bar.setAttribute("aria-valuenow", pct);
+    if(!synth) els.stat.textContent="Reading aloud isn't available";
+    else if(state==="playing") els.stat.textContent="Reading part "+Math.min(idx+1,n)+" of "+n;
+    else if(state==="paused") els.stat.textContent="Paused at part "+(idx+1)+" of "+n;
+    else if(n && idx>=n) els.stat.textContent="All done! Tap REPEAT to hear it again.";
+    else els.stat.textContent= n ? "Ready to read ("+n+" parts)" : "Ready to read";
+  }
+  function loadVoices(){
+    if(!synth) return;
+    voices = synth.getVoices().filter(function(v){ return /^en/i.test(v.lang); });
+    var cur = els.voice.value;
+    els.voice.innerHTML = '<option value="">Default voice</option>' + voices.map(function(v,i){ return '<option value="'+i+'">'+esc(v.name)+' ('+esc(v.lang)+')</option>'; }).join("");
+    if(cur && voices[cur]) els.voice.value=cur;
+  }
+  function speakFrom(i){
+    var my = ++token;
+    if(i>=items.length){ state="idle"; idx=items.length; clearHL(); ui(); var cb=onDone; onDone=null; if(cb) cb(); return; }
+    idx=i; clearHL();
+    var it=items[i]; if(it.el){ it.el.classList.add("speaking"); try{ it.el.scrollIntoView({block:"nearest",behavior:reduce?"auto":"smooth"}); }catch(_){} }
+    ui();
+    var u = new SpeechSynthesisUtterance(it.say);
+    u.rate=rate; u.pitch=1.05; if(voice){ u.voice=voice; u.lang=voice.lang; } else { u.lang="en-US"; }
+    u.onend=function(){ if(my!==token) return; speakFrom(i+1); };
+    u.onerror=function(e){ if(my!==token) return; if(e && (e.error==="interrupted"||e.error==="canceled")) return; speakFrom(i+1); };
+    synth.speak(u);
+  }
+  function hardCancel(){ token++; if(synth){ try{ synth.cancel(); }catch(_){} } }
+  var api = {
+    supported: !!synth,
+    busy: function(){ return state==="playing"; },
+    load: function(list){ hardCancel(); items=list||[]; idx=0; state="idle"; onDone=null; clearHL(); ui(); },
+    play: function(done){
+      if(!synth){ showMsg(); return; }
+      if(!items.length) return;
+      hardCancel(); state="playing"; onDone=done||null;
+      var start = idx>=items.length ? 0 : idx;
+      if(state==="playing" && start!==0 && !done) start=idx;
+      setTimeout(function(){ speakFrom(start); }, 80);
+      ui();
+    },
+    playFromStart: function(done){ idx=0; api.play(done); },
+    pause: function(){ if(state!=="playing") return; hardCancel(); state="paused"; ui(); },
+    resume: function(){ if(state!=="paused") return; state="playing"; setTimeout(function(){ speakFrom(idx); },80); ui(); },
+    stop: function(){ hardCancel(); state="idle"; idx=0; onDone=null; clearHL(); ui(); },
+    repeat: function(){ hardCancel(); idx=0; state="playing"; setTimeout(function(){ speakFrom(0); },80); ui(); },
+    sayOne: function(item){ api.load([item]); api.play(); },
+    unlock: function(){ if(!synth||unlocked) return; unlocked=true; try{ var u=new SpeechSynthesisUtterance(" "); u.volume=0; synth.speak(u); }catch(_){} }
+  };
+  function showMsg(){ els.msg.style.display="block"; els.msg.textContent="Sorry! This browser can't read aloud. Try Chrome, Edge, Safari, or Firefox on another device — or read along with Adam on the screen."; }
+  els.play.addEventListener("click", function(){ actx(); api.unlock(); if(state==="paused"){ api.resume(); } else { idx=0; api.play(); } });
+  els.pause.addEventListener("click", api.pause);
+  els.resume.addEventListener("click", api.resume);
+  els.stop.addEventListener("click", api.stop);
+  els.repeat.addEventListener("click", api.repeat);
+  els.rate.addEventListener("input", function(){ rate=parseFloat(els.rate.value); els.rateVal.textContent=rate.toFixed(1)+"×"; });
+  els.voice.addEventListener("change", function(){ voice = els.voice.value!=="" ? voices[+els.voice.value] : null; });
+  if(synth){ loadVoices(); if(typeof synth.addEventListener==="function") synth.addEventListener("voiceschanged", loadVoices); else synth.onvoiceschanged=loadVoices; }
+  else { showMsg(); }
+  window.addEventListener("pagehide", function(){ hardCancel(); });
+  document.addEventListener("visibilitychange", function(){ if(document.hidden && state==="playing") api.pause(); });
+  ui();
+  return api;
+})();
+
+/* ============================================================
+   JOURNEY MAP
+   ============================================================ */
+var J=$("#J"), path=$("#jPath"), trail=$("#jTrail"), drop=$("#jDrop"), mapAdam=$("#mapAdam");
+var total = path.getTotalLength();
+var STOPLEN = {};
+Object.keys(GEO).forEach(function(k){
+  var a=GEO[k].anchor, best=0, bd=1e12;
+  for(var L=0; L<=total; L+=2){ var p=path.getPointAtLength(L), d=(p.x-a[0])*(p.x-a[0])+(p.y-a[1])*(p.y-a[1]); if(d<bd){bd=d;best=L;} }
+  STOPLEN[k]=best;
+});
+/* keep order strictly increasing so the drop never goes backwards between stops */
+for(var k=2;k<=8;k++){ if(STOPLEN[k]<=STOPLEN[k-1]) STOPLEN[k]=Math.min(total,STOPLEN[k-1]+20); }
+STOPLEN[8]=total;
+trail.style.strokeDasharray = total+" "+total;
+trail.style.strokeDashoffset = total;
+var dropLen=0, dropRAF=null;
+function setDrop(L){ var p=path.getPointAtLength(L); drop.setAttribute("transform","translate("+p.x.toFixed(1)+","+p.y.toFixed(1)+")"); trail.style.strokeDashoffset = (total-L).toFixed(1); dropLen=L; return p; }
+function flowDrop(from,to,dur,onStep,done){
+  cancelAnimationFrame(dropRAF); drop.setAttribute("opacity","1");
+  if(reduce || dur<=0){ var p=setDrop(to); if(onStep) onStep(to,p); if(done) done(); return; }
+  var t0=null;
+  function f(t){ if(!t0)t0=t; var k=Math.min(1,(t-t0)/dur), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2, L=from+(to-from)*e, p=setDrop(L); if(onStep) onStep(L,p); if(k<1) dropRAF=requestAnimationFrame(f); else if(done) done(); }
+  dropRAF=requestAnimationFrame(f);
+}
+
+/* camera: animate viewBox */
+var VB={x:0,y:0,w:1600,h:900}, camRAF=null;
+function boxAspect(){ var r=J.getBoundingClientRect(); return (r.width>0&&r.height>0) ? r.width/r.height : 16/9; }
+function isNarrow(){ return J.getBoundingClientRect().width < 700; }
+function rectFor(cx,cy,w){
+  var a=boxAspect(); w=Math.min(w,1600); var h=w/a;
+  if(h>900){ h=900; w=h*a; }
+  var x=clamp(cx-w/2,0,1600-w), y=clamp(cy-h/2,0,900-h);
+  return {x:x,y:y,w:w,h:h};
+}
+function overviewRect(){ return {x:0,y:0,w:1600,h:900}; }
+function setVB(r){ VB=r; J.setAttribute("viewBox", r.x.toFixed(1)+" "+r.y.toFixed(1)+" "+r.w.toFixed(1)+" "+r.h.toFixed(1)); }
+function camTo(r,dur){
+  cancelAnimationFrame(camRAF);
+  if(reduce||!dur){ setVB(r); return; }
+  var s={x:VB.x,y:VB.y,w:VB.w,h:VB.h}, t0=null;
+  function f(t){ if(!t0)t0=t; var k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3);
+    setVB({x:s.x+(r.x-s.x)*e,y:s.y+(r.y-s.y)*e,w:s.w+(r.w-s.w)*e,h:s.h+(r.h-s.h)*e}); if(k<1) camRAF=requestAnimationFrame(f); }
+  camRAF=requestAnimationFrame(f);
+}
+function focusStage(n,dur){ var g=GEO[n].focus, w=g[2]*(isNarrow()?0.72:1); camTo(rectFor(g[0],g[1],w), dur); }
+
+function setMapState(n){
+  var cls=["at-"+n]; for(var i=1;i<=n;i++) cls.push("r"+i);
+  J.setAttribute("class", cls.join(" "));
+  $$(".stop",J).forEach(function(s){ s.classList.toggle("on", +s.getAttribute("data-n")===n); });
+}
+function moveAdam(n){ var a=GEO[n].adam; mapAdam.style.transform="translate("+a[0]+"px,"+a[1]+"px)"; }
+
+/* build stops */
+var stopsG=$("#stops"), NS="http://www.w3.org/2000/svg";
+STAGES.forEach(function(s){
+  var g=document.createElementNS(NS,"g"); g.setAttribute("class","stop"); g.setAttribute("data-n",s.n);
+  g.setAttribute("tabindex","0"); g.setAttribute("role","button"); g.setAttribute("aria-label","Stop "+s.n+": "+s.short);
+  g.style.setProperty("--sc", s.color);
+  var p=GEO[s.n].stop;
+  g.innerHTML='<circle class="halo" cx="'+p[0]+'" cy="'+p[1]+'" r="30" stroke="'+s.color+'"></circle><circle class="ring" cx="'+p[0]+'" cy="'+p[1]+'" r="34"></circle><circle class="bg" cx="'+p[0]+'" cy="'+p[1]+'" r="27"></circle><text x="'+p[0]+'" y="'+(p[1]+9)+'" text-anchor="middle">'+s.n+'</text>';
+  g.addEventListener("click", function(){ go(s.n,{fromMap:true}); });
+  g.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(s.n,{fromMap:true}); } });
+  stopsG.appendChild(g);
+});
+
+/* stepper */
+var stepper=$("#stepper");
+STAGES.forEach(function(s){
+  var b=document.createElement("button"); b.type="button"; b.className="step"; b.style.setProperty("--c", s.color); b.setAttribute("data-n",s.n);
+  b.innerHTML='<span class="n">'+s.n+'</span>'+esc(s.short)+'<span class="done" aria-hidden="true">'+ICON_CHECK+'</span><span class="sr"> (adventure '+s.n+')</span>';
+  b.addEventListener("click", function(){ go(s.n,{scroll:true}); });
+  stepper.appendChild(b);
+});
+function syncStepper(){
+  $$(".step",stepper).forEach(function(b){ var n=+b.getAttribute("data-n"); b.classList.toggle("is-done", !!store.done[n]); if(n===current) b.setAttribute("aria-current","step"); else b.removeAttribute("aria-current"); });
+}
+
+/* ============================================================
+   STATION RENDERING
+   ============================================================ */
+var current=0, guided=false, attempts=0, answered=false;
+var stCard=$("#stCard");
+var SEGS={lesson:[],words:[],gei:[]}, seg="lesson";
+
+function sentenceSpans(arr, cls){ return arr.map(function(t){ return '<span class="'+(cls||"rs")+'">'+esc(t)+'</span>'; }).join(" "); }
+
+function renderStation(n){
+  var s=STAGES[n-1];
+  stCard.style.setProperty("--st", s.color);
+  document.documentElement.style.setProperty("--st", s.color);
+  $("#stNum").textContent=n;
+  $("#stEyebrow").textContent="ADVENTURE "+n+" OF 8";
+  $("#stTitle").textContent=s.title;
+  $("#stSay").textContent="“"+s.say+"”";
+  $("#engTitle").textContent=s.engTitle;
+  $("#engLesson").innerHTML='<p style="font-size:20px;font-weight:700">'+sentenceSpans(s.lesson,"rs ls")+'</p>';
+  $("#engHow").innerHTML='<span class="rs hw">'+esc(s.how)+'</span>';
+  $("#engWords").innerHTML=s.words.map(function(w,i){ return '<div class="word"><b>'+esc(w[0])+'</b><span class="rs wd" data-i="'+i+'">'+esc(w[1])+'</span><button type="button" data-word="'+i+'" aria-label="Listen to the word '+esc(w[0])+'">'+ICON_SPK+'Listen</button></div>'; }).join("");
+  $("#geiTitle").textContent=s.geiTitle;
+  var html = s.gei.map(function(p){ return '<p><span class="rs gs">'+esc(p)+'</span></p>'; }).join("");
+  if(s.dam){
+    html += '<p style="font-weight:800;margin-bottom:4px">Meet GEI\'s D.A.M. teaching framework:</p><div class="dam-grid">'+
+      '<div><span class="L">D</span><b>DIVIDE</b><span class="rs dm">Split the water into separate areas — like a wall that keeps water on one side and a dry riverbed on the other.</span></div>'+
+      '<div><span class="L">A</span><b>ASSIGN</b><span class="rs dm">Give each part of the water a job and a place — store this water here, send that water there.</span></div>'+
+      '<div><span class="L">M</span><b>MANAGE</b><span class="rs dm">Take care of the water and control it wisely — open the gate just the right amount, at just the right time.</span></div></div>';
+  }
+  html += s.verses.map(function(v){ return '<div class="verse"><q class="rs vs">'+esc(v[0])+'</q><cite>'+esc(v[1])+' (KJV)</cite></div>'; }).join("");
+  html += '<div class="wonder"><b>What do you think?</b><span class="rs wq">'+esc(s.wonder)+'</span></div>';
+  if(s.reveal) html += '<div class="reveal"><button class="btn purple small" type="button" id="revealBtn" aria-expanded="false">Check my count</button><p id="revealTxt" style="display:none;margin-top:10px;font-weight:800;color:#3D1773">'+esc(s.reveal)+'</p></div>';
+  html += '<p class="note-interp">GEI Discovery shares Wilbert Bouie Jr.\'s proposed interpretation. Read the verses yourself and decide what you think!</p>';
+  $("#geiBody").innerHTML=html;
+  var rb=$("#revealBtn"); if(rb) rb.addEventListener("click", function(){ $("#revealTxt").style.display="block"; rb.setAttribute("aria-expanded","true"); sfx("pop"); });
+
+  /* reader segments */
+  var lsEls=$$(".ls",stCard);
+  SEGS.lesson=[{el:$("#stTitle"),say:"Adventure "+n+". "+s.title.replace(":",".").toLowerCase()}]
+    .concat(s.lesson.map(function(t,i){ return {el:lsEls[i],say:t}; }))
+    .concat([{el:$(".hw",stCard),say:"How it works. "+s.how}]);
+  SEGS.words=s.words.map(function(w,i){ return {el:$('.wd[data-i="'+i+'"]',stCard), say:w[0]+". "+w[1]}; });
+  var g=[{el:$("#geiTitle"),say:"GEI Discovery. "+s.geiTitle+"."}];
+  $$(".gs",stCard).forEach(function(e,i){ g.push({el:e,say:s.gei[i]}); });
+  $$(".dm",stCard).forEach(function(e,i){ g.push({el:e,say:["Divide. ","Assign. ","Manage. "][i]+e.textContent}); });
+  $$(".vs",stCard).forEach(function(e,i){ g.push({el:e,say:s.verses[i][0]+" "+s.verses[i][1].replace(":"," verse ").replace("Genesis","Genesis chapter")+"."}); });
+  g.push({el:$(".wq",stCard),say:"What do you think? "+s.wonder});
+  SEGS.gei=g;
+  $$("#engWords button[data-word]").forEach(function(b){ b.addEventListener("click", function(){ var i=+b.getAttribute("data-word"); setSeg("words",true); Reader.sayOne(SEGS.words[i]); }); });
+  setSeg(seg==="words"?"lesson":seg, true);
+
+  /* quiz */
+  attempts=0; answered=false;
+  $("#qText").textContent=s.q.text;
+  $("#qChoices").innerHTML=s.q.choices.map(function(c,i){ return '<button type="button" class="choice" data-i="'+i+'"><span class="ltr">'+"ABC"[i]+'</span><span>'+esc(c)+'</span></button>'; }).join("");
+  $$("#qChoices .choice").forEach(function(b){ b.addEventListener("click", function(){ answer(+b.getAttribute("data-i")); }); });
+  $("#qFb").className="feedback"; $("#qFbText").textContent="";
+
+  $("#prevBtn").disabled = n===1;
+  $("#prevBtn").textContent = n>1 ? "← "+STAGES[n-2].short : "← Back";
+  $("#nextBtn").innerHTML = n<8 ? "Next adventure: "+esc(STAGES[n].short)+" →" : "Enter Adam's Discovery Lab →";
+  $("#stAdam").className="st-adam mascot-slot"+(mascotOK?"":" no-mascot");
+}
+
+function setSeg(name, quiet){
+  seg=name;
+  $$(".seg button").forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-seg")===name?"true":"false"); });
+  $("#rPlay").lastChild.textContent = name==="lesson" ? "PLAY LESSON" : name==="words" ? "PLAY WORDS" : "PLAY GEI";
+  Reader.load(SEGS[name]);
+}
+$$(".seg button").forEach(function(b){ b.addEventListener("click", function(){ setSeg(b.getAttribute("data-seg")); }); });
+
+function answer(i){
+  if(answered) return;
+  var s=STAGES[current-1], btns=$$("#qChoices .choice"), fb=$("#qFb"), txt=$("#qFbText"), ad=$("#stAdam");
+  if(i===s.q.a){
+    answered=true; btns[i].classList.add("right"); btns.forEach(function(b){ b.disabled=true; });
+    fb.className="feedback show good";
+    txt.innerHTML='<strong>'+esc(pick(CHEERS))+'</strong><br>'+esc(s.q.explain);
+    ad.classList.remove("think"); void ad.offsetWidth; ad.classList.add("cheer");
+    celebrate($("#stFx")); sfx("good");
+    store.done[current]=true; save(); syncStepper();
+    $("#nextBtn").classList.add("pulse-btn");
+  } else {
+    attempts++; btns[i].classList.add("wrong"); btns[i].disabled=true;
+    ad.classList.remove("cheer"); void ad.offsetWidth; ad.classList.add("think");
+    sfx("hint");
+    if(attempts>=2){
+      answered=true; btns.forEach(function(b){ b.disabled=true; }); btns[s.q.a].classList.add("right");
+      fb.className="feedback show";
+      txt.innerHTML='<strong>That\'s okay — let\'s learn it together!</strong><br>The answer is “'+esc(s.q.choices[s.q.a])+'.” '+esc(s.q.explain);
+      store.done[current]=true; save(); syncStepper();
+    } else {
+      fb.className="feedback show";
+      txt.innerHTML='<strong>'+esc(pick(HINTS))+'</strong> '+esc(s.q.hint)+' Try again!';
+    }
+  }
+}
+
+function celebrate(box){
+  if(reduce||!box) return;
+  var cols=["#2fd2ff","#FFD23F","#FF6FB5","#7CC46E","#8B5CF6","#1E88E5"];
+  for(var i=0;i<28;i++){ var e=document.createElement("i"); if(i%3===0) e.className="drop"; e.style.left=(Math.random()*100)+"%"; e.style.background=cols[i%cols.length]; e.style.animationDelay=(Math.random()*0.35)+"s"; e.style.animationDuration=(1.3+Math.random()*0.9)+"s"; box.appendChild(e); }
+  setTimeout(function(){ box.innerHTML=""; }, 2600);
+}
+function splash(){ if(reduce) return; var s=$("#stSplash"); s.classList.remove("go"); void s.offsetWidth; s.classList.add("go"); }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+var replaying=false;
+function go(n,opt){
+  opt=opt||{};
+  if(n<1||n>8) return;
+  stopReplay();
+  Reader.stop();
+  var prev=current; current=n;
+  setMapState(n); moveAdam(n); focusStage(n, 1100);
+  $("#mapSay").textContent=STAGES[n-1].mapSay;
+  var from = (prev && prev<n) ? dropLen : (n>1 ? STOPLEN[n-1] : 0);
+  if(prev===n) from=dropLen;
+  flowDrop(from, STOPLEN[n], Math.min(2600, Math.max(600,(STOPLEN[n]-from)*2.2)));
+  renderStation(n); syncStepper(); splash();
+  $("#nextBtn").classList.remove("pulse-btn");
+  sfx(n===6?"splash":n===4?"whoosh":"drop");
+  if(n===6) setTimeout(function(){ sfx("creak"); }, 350);
+  if(opt.scroll){ try{ $("#journey").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"}); }catch(_){} }
+  if(guided){ setTimeout(function(){ if(current===n) Reader.playFromStart(function(){ $("#mapSay").textContent="Your turn! Answer my question below the lesson."; }); }, 700); }
+  if(false){ Reader.playFromStart(function(){ $("#mapSay").textContent="Your turn! Answer my question below the lesson."; }); }
+}
+$("#prevBtn").addEventListener("click", function(){ go(current-1,{scroll:true}); });
+$("#nextBtn").addEventListener("click", function(){
+  if(current<8) go(current+1,{scroll:true});
+  else { Reader.stop(); guided=false; try{ $("#lab").scrollIntoView({behavior:reduce?"auto":"smooth"}); }catch(_){} labSay("Welcome to my lab! Slide River flow up to start filling the millpond."); }
+});
+
+$("#startBtn").addEventListener("click", function(){ actx(); guided=false; go(1,{scroll:true}); });
+$("#showBtn").addEventListener("click", function(){ actx(); Reader.unlock(); guided=true; go(1,{scroll:true}); });
+
+/* replay whole journey with camera following the drop */
+function stopReplay(){ if(!replaying) return; replaying=false; cancelAnimationFrame(dropRAF); $("#replayBtn").lastChild.textContent="Replay the whole journey"; }
+$("#replayBtn").addEventListener("click", function(){
+  actx();
+  if(replaying){ stopReplay(); if(current) focusStage(current,600); return; }
+  Reader.stop(); cancelAnimationFrame(camRAF); replaying=true; $("#replayBtn").lastChild.textContent="Stop the replay";
+  setMapState(1); moveAdam(1); setDrop(0); sfx("drop");
+  var lastStage=1, follow=isNarrow()?560:900;
+  flowDrop(0,total, reduce?0:16000, function(L,p){
+    var st=1; for(var k=1;k<=8;k++){ if(L>=STOPLEN[k]-2) st=k; }
+    if(st!==lastStage){ lastStage=st; setMapState(st); moveAdam(st); $("#mapSay").textContent=STAGES[st-1].mapSay; sfx(st===6?"splash":"pop"); }
+    if(!reduce) setVB(rectFor(p.x,p.y,follow));
+  }, function(){
+    replaying=false; $("#replayBtn").lastChild.textContent="Replay the whole journey";
+    $("#mapSay").textContent="We made it from the mountain to the mill! Pick any stop to explore it.";
+    celebrate($("#mapFx")); sfx("fanfare");
+    camTo(overviewRect(), 1200);
+    setMapState(8); moveAdam(8);
+  });
+});
+$("#overviewBtn").addEventListener("click", function(){ stopReplay(); camTo(overviewRect(),900); });
+window.addEventListener("resize", function(){ if(replaying) return; if(current) focusStage(current,0); });
+
+/* ============================================================
+   DISCOVERY LAB
+   ============================================================ */
+var Lab={level:0,inflow:0,gate:0,angle:0,gearA:0,flour:0,flourProg:0,rpm:0,spun:false,draining:false,done:{},lastSay:"",sayT:0,drop:null,visible:true,lastT:0,spillOn:false};
+var labEls={water:$("#Lwater"),surf:$("#Lsurf"),gate:$("#Lgate"),hand:$("#Lhand"),wheel:$("#Lwheel"),gear:$("#Lgear"),jet:$("#Ljet"),jetF:$("#LjetFlow"),spill:$("#Lspill"),riverF:$("#LriverFlow"),flourFill:$("#LflourFill"),headLine:$("#LheadLine"),headTop:$("#LheadTop"),head:$("#Lhead"),drop:$("#Ldrop")};
+var mList=$("#missions");
+MISSIONS.forEach(function(m){ var li=document.createElement("li"); li.setAttribute("data-m",m.id); li.innerHTML='<span class="ck">'+ICON_CHECK+'</span><span>'+esc(m.t)+'</span>'; mList.appendChild(li); });
+function labSay(t){ if(t===Lab.lastSay) return; Lab.lastSay=t; $("#labSay").innerHTML=t; }
+function mission(id){
+  if(Lab.done[id]) return; Lab.done[id]=true; store.lab[id]=true; save();
+  var li=$('[data-m="'+id+'"]',mList); if(li) li.classList.add("done");
+  var c=Object.keys(Lab.done).length; $("#mCount").textContent=c+" / "+MISSIONS.length;
+  celebrate($("#labFx")); sfx(c===MISSIONS.length?"fanfare":"good");
+  if(c===MISSIONS.length) labSay("<b>ALL MISSIONS COMPLETE!</b> You're a real water engineer! Ready for the Graduation Challenge? Scroll down!");
+}
+Object.keys(store.lab||{}).forEach(function(id){ if(store.lab[id]){ Lab.done[id]=true; var li=$('[data-m="'+id+'"]',mList); if(li) li.classList.add("done"); } });
+$("#mCount").textContent=Object.keys(Lab.done).length+" / "+MISSIONS.length;
+
+$("#inflow").addEventListener("input", function(e){ Lab.inflow=e.target.value/100; Lab.draining=false; $("#inflowVal").textContent=e.target.value+"%"; });
+$("#gate").addEventListener("input", function(e){ Lab.gate=e.target.value/100; $("#gateVal").textContent= e.target.value==0?"Closed":e.target.value+"% open"; });
+$("#gate").addEventListener("change", function(){ sfx("creak"); });
+$("#labEmpty").addEventListener("click", function(){ Lab.draining=true; Lab.inflow=0; $("#inflow").value=0; $("#inflowVal").textContent="0%"; sfx("whoosh"); labSay("Glug, glug, glug… the pond is draining. Watch the HEAD arrow shrink!"); });
+$("#labReset").addEventListener("click", function(){
+  Lab.level=0; Lab.inflow=0; Lab.gate=0; Lab.flour=0; Lab.flourProg=0; Lab.spun=false; Lab.draining=false; Lab.drop=null; labEls.drop.setAttribute("opacity","0");
+  $("#inflow").value=0; $("#gate").value=0; $("#inflowVal").textContent="0%"; $("#gateVal").textContent="Closed";
+  labSay("Fresh start! Slide <b>River flow</b> up to fill the millpond."); sfx("pop");
+});
+$("#labDrop").addEventListener("click", function(){ actx(); Lab.drop={phase:0,t:0}; labEls.drop.setAttribute("opacity","1"); sfx("drop"); labSay("Here comes a droplet! Follow it into the pond…"); });
+
+function dropPos(d,dt){
+  /* phases: 0 river in, 1 sink into pond, 2 wait at gate, 3 channel, 4 around wheel, 5 into mill */
+  d.t+=dt;
+  if(d.phase===0){ var k=Math.min(1,d.t/1.2); var x=10+80*k, y=120+40*k*k; if(k>=1){d.phase=1;d.t=0;} return [x,y]; }
+  if(d.phase===1){ var k1=Math.min(1,d.t/1.8); var x1=90+320*k1, y1=160+255*k1; if(k1>=1){d.phase=2;d.t=0;} return [x1,y1]; }
+  if(d.phase===2){ if(Lab.level<0.03){ labSay("The pond is empty — there's no water to carry the droplet! Add more river flow."); } else if(Lab.gate<0.04){ labSay("The droplet is waiting at the gate… <b>raise the sluice gate</b> to let it through!"); } else { d.phase=3; d.t=0; sfx("splash"); } return [415,415]; }
+  if(d.phase===3){ var k3=Math.min(1,d.t/ (1.4/(0.4+Lab.gate))); if(k3>=1){d.phase=4;d.t=0;} return [440+90*k3,419]; }
+  if(d.phase===4){ var k4=Math.min(1,d.t/1.2); var a=Math.PI*(0.75-0.6*k4); if(k4>=1){d.phase=5;d.t=0;} return [600+100*Math.cos(a), 330+100*Math.sin(a)]; }
+  if(d.phase===5){ var k5=Math.min(1,d.t/1.0); if(k5>=1){ d.phase=6; labSay("The droplet helped spin the wheel and power the mill. Great job following it!"); sfx("good"); } return [680+60*k5, 420-90*k5]; }
+  return null;
+}
+
+function labStep(t){
+  requestAnimationFrame(labStep);
+  if(!Lab.visible){ Lab.lastT=t; return; }
+  var dt=Lab.lastT? Math.min(0.05,(t-Lab.lastT)/1000):0.016; Lab.lastT=t;
+  var outflow = Lab.gate*Math.sqrt(Math.max(Lab.level,0));
+  var dL = 0.10*Lab.inflow - 0.13*outflow - (Lab.draining?0.35:0);
+  Lab.level = clamp(Lab.level + dL*dt, 0, 1);
+  if(Lab.draining && Lab.level<=0.001) Lab.draining=false;
+  var spilling = Lab.level>=0.995 && Lab.inflow>0.05 && (0.10*Lab.inflow > 0.13*outflow);
+  var power = outflow*(0.35+0.65*Lab.level);
+  var targetRpm = 24*power;
+  Lab.rpm += (targetRpm-Lab.rpm)*Math.min(1,dt*1.8);
+  Lab.angle = (Lab.angle + Lab.rpm*16*dt)%360;
+  Lab.gearA = (Lab.gearA - Lab.rpm*40*dt)%360;
+  Lab.flourProg += power*dt*0.22;
+  if(Lab.flourProg>=1){ Lab.flourProg-=1; Lab.flour++; sfx("pop"); }
+
+  /* draw */
+  var y=430-Lab.level*260;
+  labEls.water.setAttribute("y", y.toFixed(1)); labEls.water.setAttribute("height", (440-y).toFixed(1));
+  labEls.surf.setAttribute("y1", y.toFixed(1)); labEls.surf.setAttribute("y2", y.toFixed(1)); labEls.surf.style.opacity = Lab.level>0.01?1:0;
+  labEls.gate.setAttribute("transform","translate(0,"+(-Lab.gate*100).toFixed(1)+")");
+  labEls.hand.setAttribute("transform","rotate("+(Lab.gate*540).toFixed(1)+")");
+  labEls.wheel.style.transform="rotate("+Lab.angle.toFixed(1)+"deg)";
+  labEls.gear.style.transform="rotate("+Lab.gearA.toFixed(1)+"deg)";
+  var jetOn = outflow>0.01;
+  labEls.jet.setAttribute("opacity", jetOn? (0.35+0.65*Math.min(1,outflow)).toFixed(2):"0");
+  labEls.jetF.setAttribute("opacity", jetOn?"1":"0");
+  labEls.jetF.style.animationDuration = (1.6-1.2*Math.min(1,outflow))+"s";
+  labEls.spill.setAttribute("opacity", spilling?"1":"0");
+  labEls.riverF.style.opacity = Lab.inflow>0.01?1:0.15;
+  labEls.flourFill.setAttribute("y",(446-Lab.flourProg*38).toFixed(1)); labEls.flourFill.setAttribute("height",(Lab.flourProg*38).toFixed(1));
+  labEls.headLine.setAttribute("y1",(y+2).toFixed(1)); labEls.headTop.setAttribute("transform","translate(0,"+(y-300+2).toFixed(1)+")");
+  labEls.head.style.opacity = Lab.level>0.04?1:0.25;
+  if(Lab.drop){ var p=dropPos(Lab.drop,dt); if(p){ labEls.drop.setAttribute("transform","translate("+p[0].toFixed(1)+","+p[1].toFixed(1)+")"); } else { labEls.drop.setAttribute("opacity","0"); Lab.drop=null; } }
+
+  /* gauges */
+  $("#gLevel").textContent=Math.round(Lab.level*100)+"%";
+  $("#gHead").textContent=(Lab.level*4).toFixed(1)+" m";
+  $("#gFlow").textContent=Math.round(outflow*100);
+  $("#gRpm").textContent=Math.round(Lab.rpm);
+  $("#gFlour").textContent=Lab.flour;
+
+  /* missions */
+  if(Lab.level>=0.8) mission("fill");
+  if(Lab.rpm>1.5){ Lab.spun=true; mission("spin"); }
+  if(Lab.rpm>=20) mission("full");
+  if(Lab.flour>=3) mission("flour");
+  if(spilling) mission("spill");
+  if(Lab.spun && Lab.gate===0 && Lab.rpm<0.4) mission("stop");
+
+  /* Adam's live comments (throttled) */
+  Lab.sayT+=dt;
+  if(Lab.sayT>1.2 && !(Lab.drop&&Lab.drop.phase<6)){
+    Lab.sayT=0;
+    if(spilling) labSay("Whoa! The pond is SO full that extra water is going over the <b>spillway</b> — that's the safety slide!");
+    else if(Lab.gate>0.05 && Lab.level<0.05) labSay("The gate is open, but the pond is empty. No stored water, no power! Add more river flow.");
+    else if(Lab.rpm>=20) labSay("FULL SPEED! High water (big head) plus a wide-open gate = maximum power!");
+    else if(Lab.rpm>1.5 && Lab.level<0.35) labSay("The wheel is slowing… the water level is dropping, so there's less <b>head</b> — less push!");
+    else if(Lab.rpm>1.5) labSay("It's spinning! Try opening the gate wider — or fill the pond higher — to go faster.");
+    else if(Lab.level>=0.8 && Lab.gate<0.05) labSay("The pond is nice and full. Now <b>raise the sluice gate</b> and watch what happens!");
+    else if(Lab.inflow>0.05 && Lab.level<0.8) labSay("The millpond is filling up… keep going until it's at least 80%!");
+    else if(Lab.spun && Lab.gate===0 && Lab.rpm<0.4) labSay("Gate closed, wheel stopped. You control the water — that's what MANAGE means in D.A.M.!");
+  }
+}
+if("IntersectionObserver" in window){ new IntersectionObserver(function(es){ es.forEach(function(e){ Lab.visible=e.isIntersecting; }); },{threshold:0.05}).observe($(".lab")); }
+requestAnimationFrame(labStep);
+
+/* ============================================================
+   GRADUATION CHALLENGE + CERTIFICATE
+   ============================================================ */
+var Ch={i:0,score:0,first:true,res:[]};
+var chStage=$("#chStage");
+function chIntro(){
+  var best = store.best!=null ? '<p style="font-weight:800;color:#8A4B00">Your best score so far: '+store.best+' / 80</p>' : '';
+  chStage.innerHTML='<div class="ch-intro"><div class="ava mascot-slot" data-alt="Adam the Dam Beaver cheering you on"></div><div>'+
+    '<p class="bubble" style="margin:0 0 14px">“Ready, explorer? Eight questions about our whole adventure. Get one right on your first try and you earn 10 points. Miss one? No problem — I\'ll show you the answer and we keep going!”</p>'+best+
+    '<button class="btn sun big" type="button" id="chStart">START THE CHALLENGE!</button></div></div>';
+  fillMascots(); if(!mascotOK) $$(".mascot-slot",chStage).forEach(function(s){ s.classList.add("no-mascot"); });
+  $("#chStart").addEventListener("click", function(){ actx(); Ch={i:0,score:0,first:true,res:[]}; chQ(); sfx("pop"); });
+}
+function chQ(){
+  var q=FINAL[Ch.i]; Ch.first=true;
+  var dots=FINAL.map(function(_,k){ var c= k<Ch.res.length ? (Ch.res[k]?"ok":"miss") : (k===Ch.i?"cur":""); return '<i class="'+c+'"></i>'; }).join("");
+  chStage.innerHTML='<div class="ch-top"><div class="qprog" aria-label="Question '+(Ch.i+1)+' of 8">'+dots+'</div><div class="score" aria-live="polite">Score: '+Ch.score+' / 80</div></div>'+
+    '<h3 style="font-size:clamp(22px,3vw,32px);color:#5A3B00;margin-bottom:14px">Question '+(Ch.i+1)+': '+esc(q.q)+'</h3>'+
+    '<div class="choices" id="chChoices">'+q.c.map(function(c,k){ return '<button type="button" class="choice" data-i="'+k+'"><span class="ltr">'+"ABC"[k]+'</span><span>'+esc(c)+'</span></button>'; }).join("")+'</div>'+
+    '<div class="feedback" id="chFb" aria-live="polite"><div class="fa mascot-slot" data-alt=""></div><p id="chFbText"></p></div>'+
+    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px"><button class="btn small" type="button" id="chRead">'+ICON_SPK+' Read the question</button><button class="btn go" type="button" id="chNext" style="display:none">Next question →</button></div>';
+  fillMascots(); if(!mascotOK) $$(".mascot-slot",chStage).forEach(function(s){ s.classList.add("no-mascot"); });
+  $$("#chChoices .choice").forEach(function(b){ b.addEventListener("click", function(){ chAnswer(+b.getAttribute("data-i")); }); });
+  $("#chRead").addEventListener("click", function(){ if(!Reader.supported){ $("#chFbText").textContent="Reading aloud isn't available in this browser."; $("#chFb").className="feedback show"; return; } Reader.load([{el:null,say:"Question "+(Ch.i+1)+". "+q.q+" "+q.c.map(function(c,k){return "ABC"[k]+". "+c+".";}).join(" ")}]); Reader.play(); });
+  $("#chNext").addEventListener("click", function(){ Reader.stop(); Ch.i++; if(Ch.i<FINAL.length) chQ(); else chDone(); });
+}
+function chAnswer(k){
+  var q=FINAL[Ch.i], btns=$$("#chChoices .choice"), fb=$("#chFb"), t=$("#chFbText");
+  if(k===q.a){
+    btns[k].classList.add("right"); btns.forEach(function(b){ b.disabled=true; });
+    if(Ch.first){ Ch.score+=10; Ch.res.push(true); t.innerHTML='<strong>+10 points! '+esc(pick(CHEERS))+'</strong><br>'+esc(q.e); celebrate($("#chFx")); sfx("good"); }
+    else { Ch.res.push(false); t.innerHTML='<strong>You found it!</strong> (Points come from first tries, but learning counts too!)<br>'+esc(q.e); sfx("pop"); }
+    fb.className="feedback show good"; $(".score",chStage).textContent="Score: "+Ch.score+" / 80";
+    $("#chNext").style.display=""; $("#chNext").textContent = Ch.i<FINAL.length-1 ? "Next question →" : "See my certificate! →";
+  } else {
+    btns[k].classList.add("wrong"); btns[k].disabled=true; sfx("hint");
+    if(Ch.first){ Ch.first=false; fb.className="feedback show"; t.innerHTML='<strong>'+esc(pick(HINTS))+'</strong> Think back to our adventure — you can try once more!'; }
+    else { Ch.res.push(false); btns.forEach(function(b){ b.disabled=true; }); btns[q.a].classList.add("right"); fb.className="feedback show"; t.innerHTML='<strong>No worries — now you know!</strong><br>The answer is “'+esc(q.c[q.a])+'.” '+esc(q.e);
+      $("#chNext").style.display=""; $("#chNext").textContent = Ch.i<FINAL.length-1 ? "Next question →" : "See my certificate! →"; }
+  }
+}
+function chDone(){
+  if(store.best==null || Ch.score>store.best){ store.best=Ch.score; save(); }
+  var d=new Date(), date=d.toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+  var msg = Ch.score>=70 ? "WOW — you're a water-engineering superstar!" : Ch.score>=40 ? "Awesome work! You learned SO much today!" : "Every explorer starts somewhere — and you finished the whole adventure!";
+  chStage.innerHTML='<div class="namefield noprint"><label for="certName" style="font-weight:800">Type your name for the certificate:</label><input id="certName" maxlength="40" autocomplete="off" placeholder="Your name" value="'+esc(store.name||"")+'"></div>'+
+   '<div id="certWrap"><div class="cert" id="cert">'+
+    '<div class="seal mascot-slot" data-alt="Adam the Dam Beaver"></div>'+
+    '<p style="font-family:Fredoka,sans-serif;letter-spacing:3px;color:#B7791F;font-weight:700;margin:0">CERTIFICATE OF ACHIEVEMENT</p>'+
+    '<h3>GEI JUNIOR WATER EXPLORER</h3>'+
+    '<p>This certifies that</p><div class="who" id="certWho">'+esc(store.name||"Water Explorer")+'</div>'+
+    '<p>followed the water from the mountain to the mill and completed<br><b>THE GREAT WATER ADVENTURE</b> with Adam the Dam Beaver.</p>'+
+    '<p style="font-family:Fredoka,sans-serif;font-size:26px;color:#0B3E7A;margin-top:10px">Final Challenge Score: '+Ch.score+' / 80</p>'+
+    '<div class="badges">'+STAGES.map(function(s){ return '<span style="background:'+s.color+'" title="'+esc(s.short)+'">'+s.n+'</span>'; }).join("")+'</div>'+
+    '<p>'+esc(msg)+'</p>'+
+    '<div class="sigs"><div><em>Adam the Dam Beaver</em>Official Tour Guide</div><div><em>'+esc(date)+'</em>Genesis Engineered Interpretation · YallToo</div></div>'+
+   '</div></div>'+
+   '<div class="noprint" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px"><button class="btn go" type="button" id="certPrint">Print my certificate</button><button class="btn" type="button" id="chAgain">Try the challenge again</button><button class="btn" type="button" id="toTop">Back to the start</button></div>'+
+   '<p class="noprint" id="printNote" style="text-align:center;font-weight:700;color:var(--sub);font-size:15px;margin-top:8px">Tip: if printing doesn\'t open, ask a grown-up to take a screenshot of your certificate.</p>';
+  fillMascots(); if(!mascotOK) $$(".mascot-slot",chStage).forEach(function(s){ s.classList.add("no-mascot"); });
+  $("#certName").addEventListener("input", function(e){ var v=e.target.value.trim(); $("#certWho").textContent=v||"Water Explorer"; store.name=v; save(); });
+  $("#certPrint").addEventListener("click", function(){ try{ window.print(); }catch(_){ $("#printNote").textContent="Printing isn't available here — take a screenshot to save your certificate!"; } });
+  $("#chAgain").addEventListener("click", chIntro);
+  $("#toTop").addEventListener("click", function(){ try{ $("#top").scrollIntoView({behavior:reduce?"auto":"smooth"}); }catch(_){} });
+  celebrate($("#chFx")); setTimeout(function(){ celebrate($("#chFx")); }, 700); sfx("fanfare");
+}
+chIntro();
+
+/* ============================================================
+   INIT
+   ============================================================ */
+J.setAttribute("class","");
+moveAdam(1);
+current=1; renderStation(1); syncStepper();
+$$(".step",stepper)[0].removeAttribute("aria-current");
+
+/* iframe height reporting (Hostinger / GitHub Pages embeds) */
+function report(){ var h=Math.ceil(document.documentElement.scrollHeight); try{ window.parent.postMessage({type:"gei-embed-height",height:h,frameHeight:h},"*"); }catch(_){} }
+if("ResizeObserver" in window){ new ResizeObserver(report).observe(document.body); }
+window.addEventListener("load", report);
+})();
+</script>
+</body>
+</html>
